@@ -1,0 +1,114 @@
+# =============================================================================
+# APPLICATION CONFIGURATION
+# =============================================================================
+app:
+  name: quiz-app
+  replicaCount: 3
+  
+  image:
+    repository: liavvv/quiz-app
+    pullPolicy: IfNotPresent
+    tag: "v1.0.0"  # overridden by Jenkins pipeline
+  
+  # Service configuration
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+  
+  env:
+    - name: FLASK_ENV
+      value: "production"
+    - name: PYTHONUNBUFFERED
+      value: "1"
+
+# =============================================================================
+# KUBERNETES RESOURCES
+# =============================================================================
+# Global settings
+nameOverride: ""
+fullnameOverride: "quiz-app"
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Ingress - DISABLED (using TargetGroupBinding instead)
+ingress:
+  enabled: false
+
+targetGroupBinding:
+  enabled: true
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-app-tg/73cc194f58d138eb" # Injected by Terraform
+  targetType: ip
+  serviceRef:
+    name: "quiz-app"
+    port: 5000
+  networking:
+    ingress:
+      - from:
+          - securityGroup:
+              groupID: "sg-0cfe4a9a5fbb055c1" # Injected by Terraform
+        ports:
+          - protocol: TCP
+            port: 5000
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Health checks
+probes:
+  liveness:
+    httpGet:
+      path: /
+      port: 5000
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readiness:
+    httpGet:
+      path: /
+      port: 5000
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+# =============================================================================
+# EXTERNAL SECRETS CONFIGURATION
+# =============================================================================
+# Syncs OpenAI API key from AWS SSM Parameter Store
+externalSecrets:
+  enabled: true
+  secretStore:
+    name: aws-parameter-store
+    provider: aws
+    region: eu-north-1
+  secrets:
+    - name: openai-api-key
+      target: quiz-app-secrets
+      key: /devops-quiz/openai-api-key
+      property: OPENAI_API_KEY
+
+# =============================================================================
+# OPTIONAL CONFIGURATIONS
+# =============================================================================
+autoscaling:
+  enabled: false
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+# Node scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}
