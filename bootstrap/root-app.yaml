@@ -26,9 +26,9 @@ spec:
   
   # Source: where to find the application manifests
   source:
-    repoURL: https://github.com/liav-hasson/quiz-app.git
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
     targetRevision: main
-    path: gitops/applications  # Directory containing all Application manifests
+    path: applications  # Directory containing all Application manifests
   
   # Destination: where to deploy (same cluster)
   destination:
