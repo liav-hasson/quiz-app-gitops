@@ -21,7 +21,7 @@ spec:
     required:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: topology.ebs.csi.aws.com/zone
+            - key: topology.kubernetes.io/zone
               operator: In
               values:
-                - eu-north-1a  # Update with your AZ
+                - eu-north-1a
