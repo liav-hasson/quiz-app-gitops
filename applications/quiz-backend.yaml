@@ -20,8 +20,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/quiz-backend
-    repoURL: https://github.com/liav-hasson/quiz-app.git
+    path: quiz-backend
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
     targetRevision: main
     helm:
       valueFiles:

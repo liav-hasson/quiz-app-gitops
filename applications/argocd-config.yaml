@@ -11,9 +11,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/liav-hasson/quiz-app.git
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
     targetRevision: main
-    path: gitops/argocd
+    path: argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
