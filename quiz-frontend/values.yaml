@@ -2,7 +2,7 @@ app:
   name: quiz-frontend
   replicaCount: 2
   image:
-    repository: liavvv/quiz-frontend
+    repository: liavvv/quiz-app-front
     pullPolicy: IfNotPresent
     tag: "v1.0.0"
   service:
