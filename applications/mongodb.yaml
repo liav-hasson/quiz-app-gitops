@@ -1,0 +1,77 @@
+---
+# =============================================================================
+# MongoDB - ArgoCD Application (Bitnami Chart)
+# =============================================================================
+# Single, simple MongoDB deployment using official Bitnami Helm chart
+# Handles: StatefulSet, EBS volume, External Secrets, metrics - all in one!
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"  # Deploy before quiz-backend
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: mongodb
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    # Official Bitnami MongoDB chart
+    chart: mongodb
+    repoURL: registry-1.docker.io/bitnamicharts
+    targetRevision: 16.7.1
+    helm:
+      values: |
+        # Architecture
+        architecture: standalone
+        useStatefulSet: true
+        
+        # MongoDB image
+        image:
+          tag: "7.0"
+        
+        # Authentication - using External Secrets
+        auth:
+          enabled: true
+          rootUser: root
+          rootPassword: ""  # Will come from SSM via External Secrets
+          usernames: ["quizuser"]
+          passwords: []  # Will come from SSM via External Secrets
+          databases: ["quizdb"]
+        
+        # Persistence - using existing EBS volume
+        persistence:
+          enabled: true
+          storageClass: "mongodb-ebs"  # Matches our PV
+          size: 20Gi
+        
+        # Resources
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1Gi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+        
+        # Metrics
+        metrics:
+          enabled: true
+        
+        # Service
+        service:
+          type: ClusterIP
+          ports:
+            mongodb: 27017
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

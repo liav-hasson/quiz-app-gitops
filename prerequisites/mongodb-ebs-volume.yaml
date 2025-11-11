@@ -1,0 +1,43 @@
+---
+# Apply this ONCE before deploying MongoDB
+# This tells Kubernetes about your existing EBS volume
+
+# PersistentVolume - points to your EBS volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-ebs-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: mongodb-ebs  # Custom storage class name
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: vol-020cd08dcd3d4f91a
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.ebs.csi.aws.com/zone
+              operator: In
+              values:
+                - eu-north-1a  # Update with your AZ
+
+---
+# PersistentVolumeClaim - Bitnami chart will use this
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: datadir-mongodb-0  # Bitnami StatefulSet naming pattern
+  namespace: mongodb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: mongodb-ebs
+  resources:
+    requests:
+      storage: 20Gi

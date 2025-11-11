@@ -1,0 +1,36 @@
+---
+# =============================================================================
+# Prerequisites - ArgoCD Application
+# =============================================================================
+# Deploys one-time resources needed by other applications:
+# - ArgoCD TargetGroupBinding for ALB access
+# - MongoDB PersistentVolume for existing EBS volume
+# These are applied FIRST (sync wave -2) before any other applications
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prerequisites
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"  # Deploy FIRST, before everything
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd  # Will be overridden by namespace in manifests
+  project: default
+  source:
+    path: prerequisites
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
+    targetRevision: main
+    directory:
+      recurse: false  # Don't recurse into subdirectories
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

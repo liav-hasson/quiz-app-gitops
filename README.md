@@ -8,11 +8,20 @@ This directory contains all Kubernetes manifests managed by ArgoCD using the **A
 gitops/
 ├── bootstrap/
 │   └── root-app.yaml              # Root App-of-Apps (entry point)
-├── applications/                  # Pointers to the application's charts
-├── argocd/                        # ArgoCD TargetGroupBinding
-├── jenkins-platform/              # Jenkins environment configuration
-├── quiz-backend/                  # Quiz backend API deployment
-└── quiz-frontend/                 # Quiz frontend React deployment
+├── applications/                  # ArgoCD Application manifests (pointers)
+│   ├── prerequisites.yaml         # One-time resources (sync wave -2)
+│   ├── external-secrets.yaml      # External Secrets Operator (sync wave -1)
+│   ├── aws-load-balancer-controller.yaml  # ALB Controller (sync wave -1)
+│   ├── mongodb.yaml               # MongoDB database (sync wave 0)
+│   ├── jenkins-platform.yaml      # Jenkins CI/CD (sync wave 0)
+│   ├── quiz-backend.yaml          # Backend API (sync wave 1)
+│   └── quiz-frontend.yaml         # Frontend React app (sync wave 2)
+├── prerequisites/                 # One-time Kubernetes resources
+│   ├── argocd-targetgroupbinding.yaml  # ArgoCD ALB access
+│   └── mongodb-ebs-volume.yaml    # MongoDB PV for existing EBS volume
+├── jenkins-platform/              # Jenkins Helm chart
+├── quiz-backend/                  # Backend Helm chart
+└── quiz-frontend/                 # Frontend Helm chart
 ```
 
 
@@ -39,10 +48,11 @@ the order of deployment is:
    └── kubectl apply -f bootstrap/root-app.yaml
 
 4. ArgoCD syncs all applications in order (sync waves)
-   ├── Wave -1: External Secrets Operator, ALB Controller
-   ├── Wave 0:  Jenkins Platform (namespace, RBAC, BuildKit)
-   ├── Wave 1:  Quiz Backend deployment
-   └── Wave 2:  Quiz Frontend deployment
+   ├── Wave -2: Prerequisites (ArgoCD TGB, MongoDB PV/PVC)
+   ├── Wave -1: Infrastructure (External Secrets, ALB Controller)
+   ├── Wave 0:  Platform Services (MongoDB, Jenkins)
+   ├── Wave 1:  Backend API (Quiz Backend)
+   └── Wave 2:  Frontend (Quiz Frontend)
 ```
 
 ##  Architecture 
