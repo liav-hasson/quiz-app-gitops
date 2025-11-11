@@ -32,7 +32,9 @@ spec:
         
         # MongoDB image
         image:
-          tag: "7.0"
+          registry: docker.io
+          repository: bitnami/mongodb
+          tag: "latest"
         
         # Authentication - using External Secrets
         auth:
