@@ -1,0 +1,71 @@
+app:
+  name: quiz-frontend
+  replicaCount: 2
+  image:
+    repository: liavvv/quiz-frontend
+    pullPolicy: IfNotPresent
+    tag: "v1.0.0"
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  env: []
+
+nameOverride: ""
+fullnameOverride: "quiz-frontend"
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+targetGroupBinding:
+  enabled: true
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-frontend-tg/d43c04e8f2b1e0f6" # Injected by Terraform
+  targetType: ip
+  serviceRef:
+    name: "quiz-frontend"
+    port: 80
+  networking:
+    ingress:
+      - from:
+          - securityGroup:
+              groupID: "sg-06c8e81ce291ec63d" # Injected by Terraform
+        ports:
+          - protocol: TCP
+            port: 80
+
+resources:
+  limits:
+    cpu: 300m
+    memory: 256Mi
+  requests:
+    cpu: 150m
+    memory: 128Mi
+
+probes:
+  liveness:
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 20
+    periodSeconds: 10
+  readiness:
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+autoscaling:
+  enabled: false
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

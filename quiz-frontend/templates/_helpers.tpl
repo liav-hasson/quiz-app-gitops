@@ -1,14 +1,10 @@
-{{/*
-Expand the name of the chart.
-*/}}
-{{- define "quiz-app.name" -}}
+{{/* Expand the name of the chart */}}
+{{- define "quiz-frontend.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-Create a default fully qualified app name.
-*/}}
-{{- define "quiz-app.fullname" -}}
+{{/* Create a default fully qualified app name */}}
+{{- define "quiz-frontend.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -21,39 +17,31 @@ Create a default fully qualified app name.
 {{- end }}
 {{- end }}
 
-{{/*
-Create chart name and version as used by the chart label.
-*/}}
-{{- define "quiz-app.chart" -}}
+{{/* Create chart name and version label */}}
+{{- define "quiz-frontend.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-Common labels
-*/}}
-{{- define "quiz-app.labels" -}}
-helm.sh/chart: {{ include "quiz-app.chart" . }}
-{{ include "quiz-app.selectorLabels" . }}
+{{/* Common labels */}}
+{{- define "quiz-frontend.labels" -}}
+helm.sh/chart: {{ include "quiz-frontend.chart" . }}
+{{ include "quiz-frontend.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{/*
-Selector labels
-*/}}
-{{- define "quiz-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "quiz-app.name" . }}
+{{/* Selector labels */}}
+{{- define "quiz-frontend.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "quiz-frontend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "quiz-app.serviceAccountName" -}}
+{{/* ServiceAccount name */}}
+{{- define "quiz-frontend.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "quiz-app.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "quiz-frontend.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

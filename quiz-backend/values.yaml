@@ -2,7 +2,7 @@
 # APPLICATION CONFIGURATION
 # =============================================================================
 app:
-  name: quiz-app
+  name: quiz-backend
   replicaCount: 3
   
   image:
@@ -27,7 +27,7 @@ app:
 # =============================================================================
 # Global settings
 nameOverride: ""
-fullnameOverride: "quiz-app"
+fullnameOverride: "quiz-backend"
 
 # Service Account
 serviceAccount:
@@ -42,16 +42,16 @@ ingress:
 
 targetGroupBinding:
   enabled: true
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-app-tg/73cc194f58d138eb" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-backend-tg/b25bc99905ec48bd" # Injected by Terraform
   targetType: ip
   serviceRef:
-    name: "quiz-app"
+    name: "quiz-backend"
     port: 5000
   networking:
     ingress:
       - from:
           - securityGroup:
-              groupID: "sg-0cfe4a9a5fbb055c1" # Injected by Terraform
+              groupID: "sg-06c8e81ce291ec63d" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 5000
@@ -69,13 +69,13 @@ resources:
 probes:
   liveness:
     httpGet:
-      path: /
+      path: /api/health
       port: 5000
     initialDelaySeconds: 30
     periodSeconds: 10
   readiness:
     httpGet:
-      path: /
+      path: /api/health
       port: 5000
     initialDelaySeconds: 5
     periodSeconds: 5
@@ -92,7 +92,7 @@ externalSecrets:
     region: eu-north-1
   secrets:
     - name: openai-api-key
-      target: quiz-app-secrets
+      target: quiz-backend-secrets
       key: /devops-quiz/openai-api-key
       property: OPENAI_API_KEY
 

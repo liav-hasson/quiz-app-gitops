@@ -11,7 +11,8 @@ gitops/
 ├── applications/                  # Pointers to the application's charts
 ├── argocd/                        # ArgoCD TargetGroupBinding
 ├── jenkins-platform/              # Jenkins environment configuration
-└── quiz-app/                      # Quiz-app deployment
+├── quiz-backend/                  # Quiz backend API deployment
+└── quiz-frontend/                 # Quiz frontend React deployment
 ```
 
 
@@ -40,7 +41,8 @@ the order of deployment is:
 4. ArgoCD syncs all applications in order (sync waves)
    ├── Wave -1: External Secrets Operator, ALB Controller
    ├── Wave 0:  Jenkins Platform (namespace, RBAC, BuildKit)
-   └── Wave 1:  Quiz App deployment
+   ├── Wave 1:  Quiz Backend deployment
+   └── Wave 2:  Quiz Frontend deployment
 ```
 
 ##  Architecture 
@@ -90,7 +92,7 @@ Terraform outputs are automatically injected into Helm values by the `manage-pro
 target_group_arn = "arn:aws:elasticloadbalancing:..."
 alb_security_group_id = "sg-044452ce595e62972"
 
-# Injected into gitops/quiz-app/values.yaml
+# Injected into gitops/quiz-backend/values.yaml
 targetGroupBinding:
   targetGroupARN: "arn:aws:elasticloadbalancing:..."
   networking:

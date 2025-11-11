@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "quiz-app.fullname" . }}
+  name: {{ include "quiz-backend.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "quiz-app.labels" . | nindent 4 }}
-    app.kubernetes.io/component: quiz-app
+    {{- include "quiz-backend.labels" . | nindent 4 }}
+    app.kubernetes.io/component: quiz-backend
 spec:
   replicas: {{ .Values.app.replicaCount }}
   selector:
     matchLabels:
-      {{- include "quiz-app.selectorLabels" . | nindent 6 }}
-      app.kubernetes.io/component: quiz-app
+      {{- include "quiz-backend.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: quiz-backend
   template:
     metadata:
       labels:
-        {{- include "quiz-app.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/component: quiz-app
+        {{- include "quiz-backend.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: quiz-backend
     spec:
-      serviceAccountName: {{ include "quiz-app.serviceAccountName" . }}
+      serviceAccountName: {{ include "quiz-backend.serviceAccountName" . }}
       containers:
-        - name: quiz-app
+        - name: quiz-backend
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
           imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           ports:

@@ -2,10 +2,10 @@
 apiVersion: elbv2.k8s.aws/v1beta1
 kind: TargetGroupBinding
 metadata:
-  name: {{ include "quiz-app.fullname" . }}-tgb
+  name: {{ include "quiz-backend.fullname" . }}-tgb
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "quiz-app.labels" . | nindent 4 }}
+  {{- include "quiz-backend.labels" . | nindent 4 }}
 spec:
   serviceRef:
     name: {{ .Values.targetGroupBinding.serviceRef.name }}

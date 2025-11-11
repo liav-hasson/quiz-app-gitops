@@ -1,12 +1,12 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "quiz-app.fullname" . -}}
+{{- $fullName := include "quiz-backend.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}-ingress
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "quiz-app.labels" . | nindent 4 }}
+  {{- include "quiz-backend.labels" . | nindent 4 }}
     app.kubernetes.io/component: ingress
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}

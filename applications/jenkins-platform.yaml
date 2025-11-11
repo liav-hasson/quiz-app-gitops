@@ -11,9 +11,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/liav-hasson/Leumi-project.git
+    repoURL: https://github.com/liav-hasson/quiz-app.git
     targetRevision: main
-    path: quiz-app/gitops/jenkins-platform
+    path: gitops/jenkins-platform
     helm:
       valueFiles:
         - values.yaml

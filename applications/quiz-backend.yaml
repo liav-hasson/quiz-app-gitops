@@ -1,14 +1,14 @@
 ---
 # =============================================================================
-# Quiz Application - ArgoCD Application
+# Quiz Backend - ArgoCD Application
 # =============================================================================
-# Deploys the Flask-based quiz application with OpenAI integration
+# Deploys the Flask-based quiz API with OpenAI integration
 # Helm chart includes: deployment, service, ingress, external secrets
 # =============================================================================
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quiz-app
+  name: quiz-backend
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"  # Deploy after infrastructure (ALB, External Secrets)
@@ -16,12 +16,12 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: quiz-app
+    namespace: quiz-backend
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: quiz-app/gitops/quiz-app
-    repoURL: https://github.com/liav-hasson/Leumi-project.git
+    path: gitops/quiz-backend
+    repoURL: https://github.com/liav-hasson/quiz-app.git
     targetRevision: main
     helm:
       valueFiles:

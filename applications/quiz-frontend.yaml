@@ -1,0 +1,35 @@
+---
+# =============================================================================
+# Quiz Frontend - ArgoCD Application
+# =============================================================================
+# Deploys the React-based quiz frontend
+# Helm chart includes: deployment, service, TargetGroupBinding
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quiz-frontend
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"  # Deploy after backend
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: quiz-frontend
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/quiz-frontend
+    repoURL: https://github.com/liav-hasson/quiz-app.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground

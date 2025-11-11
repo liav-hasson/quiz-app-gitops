@@ -7,7 +7,8 @@
 # - AWS Load Balancer Controller
 # - External Secrets Operator
 # - Jenkins Platform (namespace, RBAC, BuildKit)
-# - Quiz Application
+# - Quiz Backend
+# - Quiz Frontend
 #
 # Apply this after ArgoCD is installed:
 #   kubectl apply -f root-app.yaml
@@ -25,9 +26,9 @@ spec:
   
   # Source: where to find the application manifests
   source:
-    repoURL: https://github.com/liav-hasson/Leumi-project.git
+    repoURL: https://github.com/liav-hasson/quiz-app.git
     targetRevision: main
-    path: quiz-app/gitops/applications  # Directory containing all Application manifests
+    path: gitops/applications  # Directory containing all Application manifests
   
   # Destination: where to deploy (same cluster)
   destination:

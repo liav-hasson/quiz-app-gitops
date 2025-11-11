@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "quiz-app.fullname" . }}
+  name: {{ include "quiz-frontend.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "quiz-app.labels" . | nindent 4 }}
-    app.kubernetes.io/component: quiz-service
+    {{- include "quiz-frontend.labels" . | nindent 4 }}
+    app.kubernetes.io/component: quiz-frontend-service
 spec:
   type: {{ .Values.app.service.type }}
   ports:
@@ -14,5 +14,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "quiz-app.selectorLabels" . | nindent 4 }}
-    app.kubernetes.io/component: quiz-app
+    {{- include "quiz-frontend.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: quiz-frontend
