@@ -22,7 +22,7 @@ spec:
   source:
     # Official Bitnami MongoDB chart
     chart: mongodb
-    repoURL: registry-1.docker.io/bitnamicharts
+    repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 16.7.1
     helm:
       values: |
@@ -46,8 +46,12 @@ spec:
         # Persistence - using existing EBS volume
         persistence:
           enabled: true
-          storageClass: "mongodb-ebs"  # Matches our PV
+          storageClass: ""  # Empty means use manual PV binding
           size: 20Gi
+          volumeClaimTemplates:
+            selector:
+              matchLabels:
+                type: mongodb-data
         
         # Resources
         resources:
