@@ -1,0 +1,22 @@
+---
+# TargetGroupBinding for Grafana
+# Connects Grafana service (from kube-prometheus-stack) to ALB target group for HTTPS access
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: grafana-tgb
+  namespace: monitoring
+spec:
+  serviceRef:
+    name: monitoring-grafana
+    port: 80
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-grafana-tg/placeholder" # Injected by Terraform
+  targetType: ip
+  networking:
+    ingress:
+      - from:
+          - securityGroup:
+              groupID: "sg-placeholder" # Injected by Terraform
+        ports:
+          - protocol: TCP
+            port: 80

@@ -1,9 +1,6 @@
-# =============================================================================
-# APPLICATION CONFIGURATION
-# =============================================================================
 app:
   name: quiz-backend
-  replicaCount: 3
+  replicaCount: 2
   
   image:
     repository: liavvv/quiz-app
@@ -22,9 +19,6 @@ app:
     - name: PYTHONUNBUFFERED
       value: "1"
 
-# =============================================================================
-# KUBERNETES RESOURCES
-# =============================================================================
 # Global settings
 nameOverride: ""
 fullnameOverride: "quiz-backend"
@@ -80,9 +74,6 @@ probes:
     initialDelaySeconds: 5
     periodSeconds: 5
 
-# =============================================================================
-# EXTERNAL SECRETS CONFIGURATION
-# =============================================================================
 # Syncs OpenAI API key from AWS SSM Parameter Store
 externalSecrets:
   enabled: true
@@ -96,11 +87,15 @@ externalSecrets:
       key: /devops-quiz/openai-api-key
       property: OPENAI_API_KEY
 
-# =============================================================================
-# OPTIONAL CONFIGURATIONS
-# =============================================================================
 autoscaling:
   enabled: false
+
+# Prometheus monitoring
+monitoring:
+  enabled: true
+  path: /metrics
+  interval: 30s
+  scrapeTimeout: 10s
 
 # Pod configuration
 podAnnotations: {}
