@@ -26,10 +26,6 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      # Override image tag from Jenkins pipeline
-      # parameters:
-      #   - name: app.image.tag
-      #     value: "v1.0.0"  # Will be set by Jenkins pipeline
   syncPolicy:
     automated:
       prune: true

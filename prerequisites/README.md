@@ -1,43 +1,51 @@
 # Prerequisites
 
-This directory contains one-time Kubernetes resources that must exist before other applications can be deployed.
+Core Kubernetes resources that must exist before other applications deploy.
 
 ## Resources
 
-- **argocd-targetgroupbinding.yaml** - Connects ArgoCD to ALB for HTTPS access
-- **mongodb-ebs-volume.yaml** - PersistentVolume and PVC for existing EBS volume `vol-020cd08dcd3d4f91a`
+### Storage
+- **storageclass-ebs-gp3.yaml** - Default StorageClass for dynamic EBS provisioning
+- **mongodb-ebs-volume.yaml** - PersistentVolume pointing to existing EBS volume (`vol-020cd08dcd3d4f91a`)
+- **mongodb-pvc.yaml** - Pre-created PVC that binds to the MongoDB PV
 
-## Deployment
+### Networking
+- **argocd-targetgroupbinding.yaml** - Connects ArgoCD to AWS ALB for HTTPS access
+- **grafana-targetgroupbinding.yaml** - Connects Grafana to AWS ALB for HTTPS access
 
-These resources are automatically deployed by ArgoCD via the `prerequisites` Application with **sync wave -2** (before all other applications).
+## Deployment Order
 
-### Order of Deployment
+ArgoCD deploys these with **sync-wave: -2** (before all other apps):
 
 ```
--2: Prerequisites (this)
-    ├── ArgoCD TargetGroupBinding
-    └── MongoDB PV/PVC
-    
--1: Infrastructure (External Secrets, ALB Controller)
-
- 0: Platform Services (MongoDB, Jenkins)
- 
- 1: Applications (quiz-backend)
- 
- 2: Frontend (quiz-frontend)
+-2: Prerequisites (PV, PVC, TargetGroupBindings)
+ 0: MongoDB (adopts pre-created PVC)
+ 1: Applications (quiz-backend, quiz-frontend)
 ```
 
-## Manual Deployment (if needed)
+## MongoDB Persistence Strategy
 
-If ArgoCD is not yet set up or you need to apply manually:
+The MongoDB setup uses **pre-created PV/PVC** to bind an existing EBS volume:
+
+1. **PV** (`mongodb-ebs-pv`) - Points to EBS volume with `storageClassName: ""`
+2. **PVC** (`datadir-mongodb-0`) - Pre-created with `volumeName: mongodb-ebs-pv`
+3. **StatefulSet** - Adopts existing PVC instead of creating new one
+
+This ensures data survives cluster recreation.
+
+## Fresh Deployment
+
+When creating a fresh cluster:
 
 ```bash
-kubectl apply -f argocd-targetgroupbinding.yaml
-kubectl apply -f mongodb-ebs-volume.yaml
+# 1. Terraform creates EBS volume and outputs volume ID
+# 2. Update mongodb-ebs-volume.yaml with the volume ID
+# 3. ArgoCD automatically applies prerequisites first
+# 4. MongoDB StatefulSet adopts the pre-created PVC
 ```
 
-## Notes
+## Important Notes
 
-- **ArgoCD TGB**: Must be updated with the correct ALB Target Group ARN from Terraform outputs
-- **MongoDB PV**: Must match the availability zone of your EKS nodes
-- **Data Persistence**: MongoDB PV has `Retain` policy - data is never deleted
+- **MongoDB PV** uses `Retain` policy - volume is never deleted automatically
+- **PVC must exist before StatefulSet** - sync-wave ensures correct order
+- **Availability Zone** - PV nodeAffinity must match EKS node zone (`eu-north-1a`)
