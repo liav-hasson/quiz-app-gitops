@@ -45,19 +45,13 @@ spec:
           passwords: []  # Will come from SSM via External Secrets
           databases: ["quizdb"]
         
-        # Persistence - using existing EBS volume with manual binding
-        # Note: Using global.defaultStorageClass instead of persistence.storageClass
-        # because selector usage may override the storageClass parameter
+        # Persistence - using existing EBS volume
+        # Binding via storageClass match (no selector needed)
+        # The PV has storageClassName: ebs-gp3, so PVC will match automatically
         persistence:
           enabled: true
+          storageClass: "ebs-gp3"
           size: 20Gi
-          selector:
-            matchLabels:
-              type: mongodb-data
-        
-        # Force manual binding by explicitly setting empty storageClass globally
-        global:
-          defaultStorageClass: "-"
         
         # Resources
         resources:
