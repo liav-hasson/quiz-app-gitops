@@ -45,15 +45,14 @@ spec:
           passwords: []  # Will come from SSM via External Secrets
           databases: ["quizdb"]
         
-        # Persistence - using existing EBS volume
+        # Persistence - using existing EBS volume with manual binding
         persistence:
           enabled: true
-          storageClass: ""  # Empty means use manual PV binding
+          storageClass: "-"  # Dash explicitly disables StorageClass (forces manual binding)
           size: 20Gi
-          volumeClaimTemplates:
-            selector:
-              matchLabels:
-                type: mongodb-data
+          selector:
+            matchLabels:
+              type: mongodb-data
         
         # Resources
         resources:
