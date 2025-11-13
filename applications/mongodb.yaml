@@ -39,10 +39,7 @@ spec:
         # Authentication - disabled for simplicity (learning environment)
         auth:
           enabled: false
-        
-        # Extra flags to bypass authentication on existing database
-        extraFlags:
-          - "--noauth"
+          # Disable secret creation to prevent authentication from being enabled
         
         # Persistence - will adopt pre-created PVC (datadir-mongodb-0)
         # Pre-created PVC is bound to existing EBS volume via PV

@@ -38,11 +38,18 @@ spec:
                   name: {{ $secret.target }}
                   key: {{ $secret.property }}
             {{- end }}
-            # MongoDB connection (no authentication)
+            # MongoDB connection (with authentication)
             - name: MONGODB_HOST
               value: {{ .Values.mongodb.host | quote }}
             - name: MONGODB_PORT
               value: {{ .Values.mongodb.port | quote }}
+            - name: MONGODB_USERNAME
+              value: {{ .Values.mongodb.username | quote }}
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mongodb.secretName }}
+                  key: {{ .Values.mongodb.secretKey }}
           livenessProbe:
             {{- toYaml .Values.probes.liveness | nindent 12 }}
           readinessProbe:
