@@ -1,18 +1,19 @@
 ---
 # PersistentVolume - Maps your existing EBS volume vol-020cd08dcd3d4f91a
+# Pre-created to bind with pre-created PVC for StatefulSet adoption
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mongodb-ebs-pv
   labels:
-    type: mongodb-data
+    type: mongodb-data  # Must match selector in PVC
 spec:
   capacity:
     storage: 20Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "ebs-gp3"  # Match the default StorageClass for binding
+  storageClassName: ""  # Empty string to avoid default SC injection
   csi:
     driver: ebs.csi.aws.com
     fsType: ext4

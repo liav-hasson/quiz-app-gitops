@@ -1,0 +1,24 @@
+---
+# Pre-created PVC for StatefulSet adoption
+# Must be created BEFORE the StatefulSet to prevent automatic PVC creation
+# Name must match: <volumeClaimTemplate.name>-<statefulset-name>-<ordinal>
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: datadir-mongodb-0
+  namespace: mongodb
+  labels:
+    app.kubernetes.io/component: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ""  # Must match PV (empty string)
+  volumeName: mongodb-ebs-pv  # Explicit binding to our PV
+  selector:
+    matchLabels:
+      type: mongodb-data  # Must match PV label

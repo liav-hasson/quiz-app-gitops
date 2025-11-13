@@ -45,12 +45,11 @@ spec:
           passwords: []  # Will come from SSM via External Secrets
           databases: ["quizdb"]
         
-        # Persistence - using existing EBS volume
-        # Binding via storageClass match (no selector needed)
-        # The PV has storageClassName: ebs-gp3, so PVC will match automatically
+        # Persistence - will adopt pre-created PVC (datadir-mongodb-0)
+        # Pre-created PVC is bound to existing EBS volume via PV
         persistence:
           enabled: true
-          storageClass: "ebs-gp3"
+          storageClass: ""  # Empty to match pre-created PVC
           size: 20Gi
         
         # Resources
