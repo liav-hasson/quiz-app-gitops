@@ -40,6 +40,10 @@ spec:
         auth:
           enabled: false
         
+        # Extra flags to bypass authentication on existing database
+        extraFlags:
+          - "--noauth"
+        
         # Persistence - will adopt pre-created PVC (datadir-mongodb-0)
         # Pre-created PVC is bound to existing EBS volume via PV
         persistence:
