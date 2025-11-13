@@ -90,6 +90,11 @@ externalSecrets:
 autoscaling:
   enabled: false
 
+# MongoDB connection configuration (no authentication)
+mongodb:
+  host: "mongodb.mongodb.svc.cluster.local"
+  port: "27017"
+
 # Prometheus monitoring
 monitoring:
   enabled: true

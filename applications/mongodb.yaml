@@ -36,14 +36,9 @@ spec:
           repository: bitnami/mongodb
           tag: "latest"
         
-        # Authentication - using External Secrets
+        # Authentication - disabled for simplicity (learning environment)
         auth:
-          enabled: true
-          rootUser: root
-          rootPassword: ""  # Will come from SSM via External Secrets
-          usernames: ["quizuser"]
-          passwords: []  # Will come from SSM via External Secrets
-          databases: ["quizdb"]
+          enabled: false
         
         # Persistence - will adopt pre-created PVC (datadir-mongodb-0)
         # Pre-created PVC is bound to existing EBS volume via PV
