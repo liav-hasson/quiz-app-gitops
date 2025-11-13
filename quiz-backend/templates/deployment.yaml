@@ -38,18 +38,14 @@ spec:
                   name: {{ $secret.target }}
                   key: {{ $secret.property }}
             {{- end }}
-            # MongoDB connection (with authentication)
+            # MongoDB connection - credentials fetched from SSM Parameter Store by application
             - name: MONGODB_HOST
               value: {{ .Values.mongodb.host | quote }}
             - name: MONGODB_PORT
               value: {{ .Values.mongodb.port | quote }}
-            - name: MONGODB_USERNAME
-              value: {{ .Values.mongodb.username | quote }}
-            - name: MONGODB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.mongodb.secretName }}
-                  key: {{ .Values.mongodb.secretKey }}
+            # AWS region for SSM Parameter Store access
+            - name: AWS_REGION
+              value: "eu-north-1"
           livenessProbe:
             {{- toYaml .Values.probes.liveness | nindent 12 }}
           readinessProbe:

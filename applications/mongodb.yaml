@@ -36,10 +36,11 @@ spec:
           repository: bitnami/mongodb
           tag: "latest"
         
-        # Authentication - disabled for simplicity (learning environment)
+        # Authentication - enabled with root user
         auth:
-          enabled: false
-          # Disable secret creation to prevent authentication from being enabled
+          enabled: true
+          rootUser: root
+          existingSecret: mongodb
         
         # Persistence - will adopt pre-created PVC (datadir-mongodb-0)
         # Pre-created PVC is bound to existing EBS volume via PV
