@@ -46,13 +46,18 @@ spec:
           databases: ["quizdb"]
         
         # Persistence - using existing EBS volume with manual binding
+        # Note: Using global.defaultStorageClass instead of persistence.storageClass
+        # because selector usage may override the storageClass parameter
         persistence:
           enabled: true
-          storageClass: "-"  # Dash explicitly disables StorageClass (forces manual binding)
           size: 20Gi
           selector:
             matchLabels:
               type: mongodb-data
+        
+        # Force manual binding by explicitly setting empty storageClass globally
+        global:
+          defaultStorageClass: "-"
         
         # Resources
         resources:
