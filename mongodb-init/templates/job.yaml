@@ -107,7 +107,7 @@ spec:
             mountPath: /scripts
             readOnly: true
           - name: init-data
-            mountPath: /data
+            mountPath: /init-data
             readOnly: true
         resources:
           {{- toYaml .Values.resources | nindent 10 }}

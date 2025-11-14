@@ -31,7 +31,7 @@ const fs = require('fs');
 let data;
 
 try {
-    const rawData = fs.readFileSync('/data/db.json', 'utf8');
+    const rawData = fs.readFileSync('/init-data/db.json', 'utf8');
     data = JSON.parse(rawData);
     print('✓ Loaded quiz data from db.json');
 } catch (e) {
