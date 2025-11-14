@@ -2,15 +2,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "mongodb-init.fullname" . }}-{{ now | date "20060102-150405" }}
+  name: {{ include "mongodb-init.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "mongodb-init.labels" . | nindent 4 }}
   annotations:
-    {{- if .Values.job.usePostSyncHook }}
     argocd.argoproj.io/hook: PostSync
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
-    {{- end }}
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-options: Replace=true
 spec:
   backoffLimit: {{ .Values.job.backoffLimit }}
   {{- if .Values.job.ttlSecondsAfterFinished }}
@@ -39,6 +38,21 @@ spec:
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.mongodb.auth.enabled }}
+      initContainers:
+      - name: wait-for-secret
+        image: bitnami/kubectl:latest
+        command:
+          - /bin/bash
+          - -c
+          - |
+            echo "Waiting for secret {{ .Values.mongodb.auth.existingSecret }} to be available..."
+            until kubectl get secret {{ .Values.mongodb.auth.existingSecret }} -n {{ .Release.Namespace }} >/dev/null 2>&1; do
+              echo "Secret not found yet, waiting..."
+              sleep 5
+            done
+            echo "Secret is available!"
       {{- end }}
       containers:
       - name: mongodb-init

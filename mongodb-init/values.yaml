@@ -3,14 +3,12 @@
 # Job configuration
 job:
   enabled: true
-  # Run job after MongoDB is deployed (ArgoCD PostSync hook)
-  usePostSyncHook: true
   
   # Backoff limit for failed attempts
   backoffLimit: 3
   
-  # TTL (time to live) for completed jobs - cleanup after 24 hours
-  ttlSecondsAfterFinished: 86400
+  # TTL (time to live) for completed jobs - cleanup after success (1 hour)
+  ttlSecondsAfterFinished: 3600
   
   # Job restart policy
   restartPolicy: OnFailure
