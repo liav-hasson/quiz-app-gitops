@@ -5,8 +5,11 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mongodb-ebs-pv
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"  # Deploy early, before PVC
   labels:
     type: mongodb-data  # Must match selector in PVC
+    component: mongodb  # Additional label for strict binding
 spec:
   capacity:
     storage: 20Gi

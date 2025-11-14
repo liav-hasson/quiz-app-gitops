@@ -11,7 +11,7 @@ metadata:
   name: monitoring
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"  # Deploy with infrastructure, before apps
+    argocd.argoproj.io/sync-wave: "-10"  # Deploy with infrastructure, before apps
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

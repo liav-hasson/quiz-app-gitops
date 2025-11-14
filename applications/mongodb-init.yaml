@@ -12,7 +12,7 @@ metadata:
   name: mongodb-init
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"  # After MongoDB (wave 0), before backend (wave 2)
+    argocd.argoproj.io/sync-wave: "20"  # After MongoDB (wave 10), before backend (wave 30)
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

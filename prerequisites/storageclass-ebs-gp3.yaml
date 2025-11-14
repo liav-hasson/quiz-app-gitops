@@ -7,6 +7,7 @@ metadata:
   name: ebs-gp3
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
+    argocd.argoproj.io/sync-wave: "-40"  # Deploy very early, before PV/PVC
 provisioner: ebs.csi.aws.com
 parameters:
   type: gp3

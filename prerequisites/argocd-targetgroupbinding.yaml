@@ -6,6 +6,8 @@ kind: TargetGroupBinding
 metadata:
   name: argocd-tgb
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"  # After infrastructure, before apps
 spec:
   serviceRef:
     name: argocd-server

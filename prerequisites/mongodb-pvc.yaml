@@ -7,6 +7,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: datadir-mongodb-0
   namespace: mongodb
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"  # After PV, before applications
   labels:
     app.kubernetes.io/component: mongodb
     app.kubernetes.io/instance: mongodb
@@ -22,3 +24,4 @@ spec:
   selector:
     matchLabels:
       type: mongodb-data  # Must match PV label
+      component: mongodb  # Additional label for strict binding

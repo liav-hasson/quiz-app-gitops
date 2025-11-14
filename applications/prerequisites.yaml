@@ -13,7 +13,7 @@ metadata:
   name: prerequisites
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"  # Deploy FIRST, before everything
+    argocd.argoproj.io/sync-wave: "-50"  # Deploy FIRST, before everything
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

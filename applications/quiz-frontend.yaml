@@ -11,7 +11,7 @@ metadata:
   name: quiz-frontend
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"  # Deploy after backend
+    argocd.argoproj.io/sync-wave: "40"  # Deploy after backend (wave 30)
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

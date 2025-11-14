@@ -11,7 +11,7 @@ metadata:
   name: mongodb
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"  # Deploy before quiz-backend
+    argocd.argoproj.io/sync-wave: "10"  # Deploy after prerequisites, before apps
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -42,11 +42,12 @@ spec:
           rootUser: root
           existingSecret: mongodb
         
-        # Persistence - will adopt pre-created PVC (datadir-mongodb-0)
+        # Persistence - uses pre-created PVC (datadir-mongodb-0)
         # Pre-created PVC is bound to existing EBS volume via PV
         persistence:
           enabled: true
-          storageClass: ""  # Empty to match pre-created PVC
+          existingClaim: "datadir-mongodb-0"  # Use pre-created PVC, don't create new one
+          storageClass: ""  # Empty to prevent dynamic provisioning
           size: 20Gi
         
         # Resources

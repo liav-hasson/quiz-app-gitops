@@ -6,6 +6,8 @@ kind: TargetGroupBinding
 metadata:
   name: grafana-tgb
   namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"  # After infrastructure, before apps
 spec:
   serviceRef:
     name: monitoring-grafana

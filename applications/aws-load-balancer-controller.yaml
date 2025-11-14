@@ -11,7 +11,7 @@ metadata:
   name: aws-load-balancer-controller
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"  # Install before application workloads
+    argocd.argoproj.io/sync-wave: "-10"  # Install before application workloads
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
