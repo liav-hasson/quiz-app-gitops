@@ -95,10 +95,7 @@ spec:
         env:
           {{- if .Values.mongodb.auth.enabled }}
           - name: MONGODB_USER
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.mongodb.auth.existingSecret }}
-                key: {{ .Values.mongodb.auth.userKey }}
+            value: "root"  # MongoDB root user is always "root"
           - name: MONGODB_PASSWORD
             valueFrom:
               secretKeyRef:
