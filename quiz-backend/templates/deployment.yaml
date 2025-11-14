@@ -43,6 +43,9 @@ spec:
               value: {{ .Values.mongodb.host | quote }}
             - name: MONGODB_PORT
               value: {{ .Values.mongodb.port | quote }}
+            # Disable auto-migration in production (mongodb-init Job handles initialization)
+            - name: AUTO_MIGRATE_DB
+              value: "false"
             # AWS region for SSM Parameter Store access
             - name: AWS_REGION
               value: "eu-north-1"

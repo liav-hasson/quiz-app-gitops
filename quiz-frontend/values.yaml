@@ -9,6 +9,13 @@ app:
     type: ClusterIP
     port: 80
     targetPort: 80
+  
+  # Backend service configuration for nginx proxy
+  backend:
+    serviceName: quiz-backend
+    namespace: quiz-backend
+    port: 5000
+  
   env: []
 
 nameOverride: ""

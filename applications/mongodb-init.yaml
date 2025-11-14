@@ -1,0 +1,32 @@
+---
+# =============================================================================
+# MongoDB Initialization - ArgoCD Application
+# =============================================================================
+# Initializes MongoDB with quiz application data
+# Runs as a Kubernetes Job after MongoDB is deployed
+# Idempotent - safe to run multiple times (checks if data exists)
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb-init
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"  # After MongoDB (wave 0), before backend (wave 2)
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: mongodb
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/mongodb-init
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
+    targetRevision: main  # or your gitops branch
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false  # mongodb namespace already exists from MongoDB app
