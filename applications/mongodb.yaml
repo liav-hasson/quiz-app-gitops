@@ -20,35 +20,27 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    # Official Bitnami MongoDB chart
-    chart: mongodb
-    repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 18.1.9  # Latest as of Nov 2024
+    # Custom MongoDB chart with full control over PVC binding
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
+    targetRevision: main
+    path: mongodb
     helm:
       values: |
-        # Architecture
-        architecture: standalone
-        useStatefulSet: true
+        # Use pre-created PVC (no volumeClaimTemplates!)
+        persistence:
+          usePrecreatedPVC: true
+          pvcName: "datadir-mongodb-0"
+          size: 20Gi
+          storageClass: ""
+          selector:
+            matchLabels:
+              type: mongodb-data
+              component: mongodb
         
-        # MongoDB image
-        image:
-          registry: docker.io
-          repository: bitnami/mongodb
-          tag: "latest"
-        
-        # Authentication - enabled with root user
+        # Authentication
         auth:
           enabled: true
-          rootUser: root
           existingSecret: mongodb
-        
-        # Persistence - uses pre-created PVC (datadir-mongodb-0)
-        # Pre-created PVC is bound to existing EBS volume via PV
-        persistence:
-          enabled: true
-          existingClaim: "datadir-mongodb-0"  # Use pre-created PVC, don't create new one
-          storageClass: ""  # Empty to prevent dynamic provisioning
-          size: 20Gi
         
         # Resources
         resources:
@@ -58,16 +50,6 @@ spec:
           limits:
             cpu: 1000m
             memory: 2Gi
-        
-        # Metrics
-        metrics:
-          enabled: true
-        
-        # Service
-        service:
-          type: ClusterIP
-          ports:
-            mongodb: 27017
   
   syncPolicy:
     automated:

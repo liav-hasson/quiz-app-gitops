@@ -1,0 +1,45 @@
+nameOverride: ""
+fullnameOverride: "mongodb"
+
+image:
+  repository: mongo
+  tag: "7.0"
+  pullPolicy: IfNotPresent
+
+# Single-node deployment (not a replica set)
+# For production with HA, deploy 3 nodes and enable replica set
+replicaSet:
+  enabled: false
+
+# Use pre-created PVC selector instead of volumeClaimTemplates
+persistence:
+  usePrecreatedPVC: true
+  pvcName: "datadir-mongodb-0"
+  size: 20Gi
+  storageClass: ""  # Empty for pre-created PVC with selector
+  selector:
+    matchLabels:
+      type: mongodb-data
+      component: mongodb
+
+# MongoDB configuration
+auth:
+  enabled: true
+  existingSecret: "mongodb"  # Must contain mongodb-root-password key
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+service:
+  type: ClusterIP
+  port: 27017
+
+# Service account
+serviceAccount:
+  create: true
+  name: "mongodb"
