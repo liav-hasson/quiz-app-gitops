@@ -31,7 +31,6 @@ spec:
             # Backend service URL for nginx proxy (templated from values.yaml)
             - name: BACKEND_URL
               value: "{{ .Values.app.backend.serviceName }}.{{ .Values.app.backend.namespace }}.svc.cluster.local:{{ .Values.app.backend.port }}"
-            {{- toYaml .Values.app.env | nindent 12 }}
           livenessProbe:
             {{- toYaml .Values.probes.liveness | nindent 12 }}
           readinessProbe:
