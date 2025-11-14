@@ -21,7 +21,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/mongodb-init
+    path: mongodb-init
     repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
     targetRevision: main  # or your gitops branch
   syncPolicy:
