@@ -1,6 +1,7 @@
 ---
 # PersistentVolume - Maps your existing EBS volume vol-020cd08dcd3d4f91a
 # Pre-created to bind with pre-created PVC for StatefulSet adoption
+# NOTE: This PV is EXCLUSIVELY for MongoDB - labels and selector ensure only MongoDB PVC can claim it
 apiVersion: v1
 kind: PersistentVolume
 metadata:

@@ -30,6 +30,7 @@ spec:
           enabled: true
           persistence:
             enabled: true
+            storageClassName: ebs-gp3  # Use dynamic storage class to avoid conflicts with MongoDB PV
             size: 10Gi
           config:
             auth_enabled: false
