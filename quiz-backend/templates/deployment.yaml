@@ -30,19 +30,26 @@ spec:
           env:
             {{- toYaml .Values.app.env | nindent 12 }}
             {{- if .Values.externalSecrets.enabled }}
-            {{- $secret := index .Values.externalSecrets.secrets 0 }}
             # OpenAI API key from External Secrets
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ $secret.target }}
-                  key: {{ $secret.property }}
+                  name: {{ (index .Values.externalSecrets.secrets 0).target }}
+                  key: {{ (index .Values.externalSecrets.secrets 0).property }}
+            # MongoDB credentials from External Secrets
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (index .Values.externalSecrets.secrets 1).target }}
+                  key: {{ (index .Values.externalSecrets.secrets 1).property }}
             {{- end }}
-            # MongoDB connection - credentials fetched from SSM Parameter Store by application
+            # MongoDB connection
             - name: MONGODB_HOST
               value: {{ .Values.mongodb.host | quote }}
             - name: MONGODB_PORT
               value: {{ .Values.mongodb.port | quote }}
+            - name: MONGODB_USERNAME
+              value: "root"
             # Disable auto-migration in production (mongodb-init Job handles initialization)
             - name: AUTO_MIGRATE_DB
               value: "false"

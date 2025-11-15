@@ -86,6 +86,10 @@ externalSecrets:
       target: quiz-backend-secrets
       key: /devops-quiz/openai-api-key
       property: OPENAI_API_KEY
+    - name: mongodb-credentials
+      target: quiz-backend-mongodb
+      key: /quiz-app/mongodb/root-password
+      property: MONGODB_PASSWORD
 
 autoscaling:
   enabled: false
