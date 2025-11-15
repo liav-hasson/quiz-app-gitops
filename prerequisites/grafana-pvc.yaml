@@ -1,0 +1,26 @@
+---
+# PersistentVolumeClaim for Grafana
+# Claims the pre-created grafana-ebs-pv volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: monitoring-grafana
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/component: grafana
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"  # Create after PV, before monitoring stack
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: ""  # Empty to use pre-created PV
+  volumeName: grafana-ebs-pv
+  selector:
+    matchLabels:
+      type: grafana-data
+      component: grafana

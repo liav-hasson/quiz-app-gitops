@@ -1,0 +1,33 @@
+---
+# PersistentVolume for Grafana
+# Maps to pre-created EBS volume for persistent dashboard/config storage
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana-ebs-pv
+  labels:
+    type: grafana-data
+    component: grafana
+  annotations:
+    argocd.argoproj.io/sync-wave: "-30"  # Create before PVC (wave -20)
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""  # Empty to prevent dynamic provisioning
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: vol-0e69ca12c373dd51d
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.ebs.csi.aws.com/zone
+              operator: In
+              values:
+                - eu-north-1a
+                - eu-north-1b
+                - eu-north-1c

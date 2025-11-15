@@ -50,7 +50,7 @@ spec:
             port: 80
           persistence:
             enabled: true
-            size: 5Gi
+            existingClaim: monitoring-grafana
           # Pre-install useful dashboards
           dashboardProviders:
             dashboardproviders.yaml:
