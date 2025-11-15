@@ -82,14 +82,13 @@ externalSecrets:
     provider: aws
     region: eu-north-1
   secrets:
-    - name: openai-api-key
+    - name: quiz-backend-secrets
       target: quiz-backend-secrets
-      key: /devops-quiz/openai-api-key
-      property: OPENAI_API_KEY
-    - name: mongodb-credentials
-      target: quiz-backend-mongodb
-      key: /quiz-app/mongodb/root-password
-      property: MONGODB_PASSWORD
+      keys:
+        - secretKey: OPENAI_API_KEY
+          remoteKey: /devops-quiz/openai-api-key
+        - secretKey: MONGODB_PASSWORD
+          remoteKey: /quiz-app/mongodb/root-password
 
 autoscaling:
   enabled: false

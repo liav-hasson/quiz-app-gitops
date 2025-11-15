@@ -30,18 +30,18 @@ spec:
           env:
             {{- toYaml .Values.app.env | nindent 12 }}
             {{- if .Values.externalSecrets.enabled }}
-            # OpenAI API key from External Secrets
+            {{- $secretName := (index .Values.externalSecrets.secrets 0).target }}
+            # Secrets from External Secrets (OpenAI API key, MongoDB password)
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ (index .Values.externalSecrets.secrets 0).target }}
-                  key: {{ (index .Values.externalSecrets.secrets 0).property }}
-            # MongoDB credentials from External Secrets
+                  name: {{ $secretName }}
+                  key: OPENAI_API_KEY
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ (index .Values.externalSecrets.secrets 1).target }}
-                  key: {{ (index .Values.externalSecrets.secrets 1).property }}
+                  name: {{ $secretName }}
+                  key: MONGODB_PASSWORD
             {{- end }}
             # MongoDB connection
             - name: MONGODB_HOST
