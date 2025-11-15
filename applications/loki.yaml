@@ -1,0 +1,171 @@
+---
+# =============================================================================
+# Loki - ArgoCD Application (Grafana Loki for Log Aggregation)
+# =============================================================================
+# Deploys Loki with Promtail to collect logs from all pods
+# Integrates with Grafana for log visualization
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"  # Deploy with monitoring stack
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: loki-stack
+    targetRevision: 2.10.2
+    helm:
+      values: |
+        # Loki configuration
+        loki:
+          enabled: true
+          persistence:
+            enabled: true
+            size: 10Gi
+          config:
+            auth_enabled: false
+            ingester:
+              chunk_idle_period: 3m
+              chunk_block_size: 262144
+              chunk_retain_period: 1m
+              max_transfer_retries: 0
+              lifecycler:
+                ring:
+                  kvstore:
+                    store: inmemory
+                  replication_factor: 1
+            limits_config:
+              retention_period: 168h  # 7 days
+              enforce_metric_name: false
+              reject_old_samples: true
+              reject_old_samples_max_age: 168h
+              ingestion_rate_mb: 10
+              ingestion_burst_size_mb: 20
+            schema_config:
+              configs:
+                - from: 2020-10-24
+                  store: boltdb-shipper
+                  object_store: filesystem
+                  schema: v11
+                  index:
+                    prefix: index_
+                    period: 24h
+            server:
+              http_listen_port: 3100
+            storage_config:
+              boltdb_shipper:
+                active_index_directory: /data/loki/boltdb-shipper-active
+                cache_location: /data/loki/boltdb-shipper-cache
+                cache_ttl: 24h
+                shared_store: filesystem
+              filesystem:
+                directory: /data/loki/chunks
+            chunk_store_config:
+              max_look_back_period: 0s
+            table_manager:
+              retention_deletes_enabled: true
+              retention_period: 168h
+        
+        # Promtail configuration - collects logs from pods
+        promtail:
+          enabled: true
+          config:
+            lokiAddress: http://{{ .Release.Name }}:3100/loki/api/v1/push
+            snippets:
+              pipelineStages:
+                - docker: {}
+                - drop:
+                    source: "namespace"
+                    expression: "kube-system"  # Don't collect kube-system logs
+                - labeldrop:
+                    - filename
+              
+              # Scrape all pods
+              scrapeConfigs: |
+                - job_name: kubernetes-pods
+                  pipeline_stages:
+                    {{- toYaml .Values.config.snippets.pipelineStages | nindent 4 }}
+                  kubernetes_sd_configs:
+                    - role: pod
+                  relabel_configs:
+                    - source_labels:
+                        - __meta_kubernetes_pod_controller_name
+                      regex: ([0-9a-z-.]+?)(-[0-9a-f]{8,10})?
+                      action: replace
+                      target_label: __tmp_controller_name
+                    - source_labels:
+                        - __meta_kubernetes_pod_label_app_kubernetes_io_name
+                        - __meta_kubernetes_pod_label_app
+                        - __tmp_controller_name
+                        - __meta_kubernetes_pod_name
+                      regex: ^;*([^;]+)(;.*)?$
+                      action: replace
+                      target_label: app
+                    - source_labels:
+                        - __meta_kubernetes_pod_label_app_kubernetes_io_component
+                        - __meta_kubernetes_pod_label_component
+                      regex: ^;*([^;]+)(;.*)?$
+                      action: replace
+                      target_label: component
+                    - action: replace
+                      source_labels:
+                        - __meta_kubernetes_pod_node_name
+                      target_label: node_name
+                    - action: replace
+                      source_labels:
+                        - __meta_kubernetes_namespace
+                      target_label: namespace
+                    - action: replace
+                      replacement: $1
+                      separator: /
+                      source_labels:
+                        - namespace
+                        - app
+                      target_label: job
+                    - action: replace
+                      source_labels:
+                        - __meta_kubernetes_pod_name
+                      target_label: pod
+                    - action: replace
+                      source_labels:
+                        - __meta_kubernetes_pod_container_name
+                      target_label: container
+                    - action: replace
+                      replacement: /var/log/pods/*$1/*.log
+                      separator: /
+                      source_labels:
+                        - __meta_kubernetes_pod_uid
+                        - __meta_kubernetes_pod_container_name
+                      target_label: __path__
+                    - action: replace
+                      regex: true/(.*)
+                      replacement: /var/log/pods/*$1/*.log
+                      separator: /
+                      source_labels:
+                        - __meta_kubernetes_pod_annotationpresent_kubernetes_io_config_hash
+                        - __meta_kubernetes_pod_annotation_kubernetes_io_config_hash
+                        - __meta_kubernetes_pod_container_name
+                      target_label: __path__
+        
+        # Grafana integration - disabled, using existing Grafana
+        grafana:
+          enabled: false
+          sidecar:
+            datasources:
+              enabled: false
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

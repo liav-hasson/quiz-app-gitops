@@ -19,6 +19,21 @@ spec:
         app.kubernetes.io/component: quiz-backend
     spec:
       serviceAccountName: {{ include "quiz-backend.serviceAccountName" . }}
+      initContainers:
+      # this container makes sure that mongodb is ready
+      # sync waves values only ensure that the pod is created
+      # it does not verify the pods are ready.
+        - name: wait-for-mongodb
+          image: busybox:1.35.0
+          command: ['sh', '-c']
+          args:
+            - |
+              echo "Waiting for MongoDB to be ready..."
+              until nc -z mongodb.mongodb.svc.cluster.local 27017; do
+                echo "MongoDB not ready yet, waiting 5 seconds..."
+                sleep 5
+              done
+              echo "MongoDB is ready!"
       containers:
         - name: quiz-backend
           image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
