@@ -8,7 +8,7 @@ Below i will try to explain the logic of each app, the dependencies ordering usi
 ## About The Quiz-app Project
 
 The Quiz-app is a DevOps learning platform build by a DevOps student.
-The app lets the user select a category, a sub-category and a difficulty, then generates a question about a random keyword in that subject. The user then answers the question, and recieves a score, and short feedback.
+The app lets the user select a category, a sub-category and a difficulty, then generates a question about a random keyword in that subject. The user then answers the question, recieves a score, and short feedback.
 
 All the code is fully open source, and contains 5 main repositories:
 - **[Frontend repository](https://github.com/liav-hasson/quiz-app-frontend.git)** - React frontend that runs on Nginx.
