@@ -5,4 +5,4 @@ description: Helm chart for the Quiz frontend React application
 type: application
 
 version: 0.1.0
-appVersion: "v1.0.7"
+appVersion: "v1.0.8"
