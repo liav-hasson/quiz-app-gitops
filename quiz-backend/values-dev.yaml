@@ -1,0 +1,119 @@
+app:
+  name: quiz-backend-dev
+  replicaCount: 1  # Dev uses fewer replicas
+  
+  image:
+    repository: liavvv/quiz-app
+    pullPolicy: Always  # Always pull latest dev images
+    tag: "v1.0.0-dev"  # overridden by Jenkins pipeline
+  
+  # Service configuration
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+  
+  env:
+    - name: FLASK_ENV
+      value: "development"  # Dev environment
+    - name: PYTHONUNBUFFERED
+      value: "1"
+
+# Global settings
+nameOverride: ""
+fullnameOverride: "quiz-backend-dev"
+
+# Service Account
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+# Ingress - DISABLED (using TargetGroupBinding instead)
+ingress:
+  enabled: false
+
+targetGroupBinding:
+  enabled: true
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-backend-dev-tg/XXXXXXXXXX" # Injected by Terraform
+  targetType: ip
+  serviceRef:
+    name: "quiz-backend-dev"
+    port: 5000
+  networking:
+    ingress:
+      - from:
+          - securityGroup:
+              groupID: "sg-XXXXXXXXXX" # Injected by Terraform
+        ports:
+          - protocol: TCP
+            port: 5000
+
+# Resource limits and requests (lower for dev)
+resources:
+  limits:
+    cpu: 300m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Health checks
+probes:
+  liveness:
+    httpGet:
+      path: /api/health
+      port: 5000
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readiness:
+    httpGet:
+      path: /api/health
+      port: 5000
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+# Syncs OpenAI API key from AWS SSM Parameter Store
+# Uses same secrets as production (shared credentials)
+externalSecrets:
+  enabled: true
+  secretStore:
+    name: aws-parameter-store
+    provider: aws
+    region: eu-north-1
+  secrets:
+    - name: quiz-backend-dev-secrets
+      target: quiz-backend-dev-secrets
+      keys:
+        - secretKey: OPENAI_API_KEY
+          remoteKey: /devops-quiz/openai-api-key
+        - secretKey: MONGODB_PASSWORD
+          remoteKey: /quiz-app/mongodb/root-password
+
+autoscaling:
+  enabled: false
+
+# MongoDB connection configuration
+# SHARED DATABASE: Uses same MongoDB as production
+mongodb:
+  host: "mongodb.mongodb.svc.cluster.local"
+  port: "27017"
+
+# Prometheus monitoring
+monitoring:
+  enabled: true
+  path: /metrics
+  interval: 30s
+  scrapeTimeout: 10s
+
+# Pod configuration
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+# Node scheduling
+nodeSelector: {}
+tolerations: []
+affinity: {}

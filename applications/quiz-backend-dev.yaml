@@ -1,0 +1,35 @@
+---
+# =============================================================================
+# Quiz Backend DEV - ArgoCD Application
+# =============================================================================
+# Deploys the Flask-based quiz API to the DEV environment
+# Triggered by pushes to non-main branches
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quiz-backend-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "30"  # Deploy after mongodb-init (wave 20)
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: quiz-backend-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: quiz-backend
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground

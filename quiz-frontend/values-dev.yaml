@@ -1,0 +1,79 @@
+app:
+  name: quiz-frontend-dev
+  replicaCount: 1  # Dev uses fewer replicas
+  image:
+    repository: liavvv/quiz-app-front
+    pullPolicy: Always  # Always pull latest dev images
+    tag: "v1.0.0-dev"  # overridden by Jenkins pipeline
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  
+  # Backend service configuration for nginx proxy
+  # Points to dev backend in dev namespace
+  backend:
+    serviceName: quiz-backend-dev
+    namespace: quiz-backend-dev
+    port: 5000
+  
+  env: []
+
+nameOverride: ""
+fullnameOverride: "quiz-frontend-dev"
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+targetGroupBinding:
+  enabled: true
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-frontend-dev-tg/XXXXXXXXXX" # Injected by Terraform
+  targetType: ip
+  serviceRef:
+    name: "quiz-frontend-dev"
+    port: 80
+  networking:
+    ingress:
+      - from:
+          - securityGroup:
+              groupID: "sg-XXXXXXXXXX" # Injected by Terraform
+        ports:
+          - protocol: TCP
+            port: 80
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+probes:
+  liveness:
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 20
+    periodSeconds: 10
+  readiness:
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+autoscaling:
+  enabled: false
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

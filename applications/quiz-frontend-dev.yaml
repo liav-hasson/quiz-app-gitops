@@ -1,0 +1,35 @@
+---
+# =============================================================================
+# Quiz Frontend DEV - ArgoCD Application
+# =============================================================================
+# Deploys the React-based quiz frontend to the DEV environment
+# Triggered by pushes to non-main branches
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quiz-frontend-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "40"  # Deploy after backend (wave 30)
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: quiz-frontend-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: quiz-frontend
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
