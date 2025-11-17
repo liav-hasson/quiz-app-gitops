@@ -36,7 +36,7 @@ ingress:
 
 targetGroupBinding:
   enabled: true
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-backend-dev-tg/XXXXXXXXXX" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-backend-dev-tg/XXXXXXXXXX" # Injected by Terraform
   targetType: ip
   serviceRef:
     name: "quiz-backend-dev"
