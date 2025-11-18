@@ -6,7 +6,7 @@ type: application
 
 version: 0.1.0
 <<<<<<< HEAD
-appVersion: "v0.0.1"
+appVersion: "v1.0.14"
 =======
-appVersion: "v0.0.1"
+appVersion: "v1.0.14"
 >>>>>>> e0ef64a (reset frontend and backernd apps version to v1.0.0)

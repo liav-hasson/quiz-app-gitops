@@ -5,9 +5,9 @@ app:
     repository: liavvv/quiz-app-front
     pullPolicy: IfNotPresent
 <<<<<<< HEAD
-    tag: "v0.0.1"
+    tag: "v1.0.14"
 =======
-    tag: "v0.0.1"
+    tag: "v1.0.14"
 >>>>>>> e0ef64a (reset frontend and backernd apps version to v1.0.0)
   service:
     type: ClusterIP
