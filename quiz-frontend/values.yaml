@@ -4,7 +4,7 @@ app:
   image:
     repository: liavvv/quiz-app-front
     pullPolicy: IfNotPresent
-    tag: "v0.0.2"
+    tag: "v1.0.1"
   service:
     type: ClusterIP
     port: 80
