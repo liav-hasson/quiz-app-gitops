@@ -36,7 +36,7 @@ ingress:
 
 targetGroupBinding:
   enabled: true
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-backend-tg/100ddc6d069dd8e5" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-backend-tg/b48bb60e0ffdaf47" # Injected by Terraform
   targetType: ip
   serviceRef:
     name: "quiz-backend"
@@ -45,7 +45,7 @@ targetGroupBinding:
     ingress:
       - from:
           - securityGroup:
-              groupID: "sg-0382017c6239bca56" # Injected by Terraform
+              groupID: "sg-047e1dbec2b3643a3" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 5000
