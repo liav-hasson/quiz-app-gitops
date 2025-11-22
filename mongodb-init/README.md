@@ -111,17 +111,6 @@ Expected output: 72 documents (13 categories, 72 subjects)
 - `templates/job.yaml` - Kubernetes Job definition
 - `templates/serviceaccount.yaml` - Service account for the job
 
-## Architecture
-
-```
-MongoDB (wave 0)
-    ↓
-MongoDB Init Job (wave 1, PostSync)
-    ↓
-Backend (wave 2) ← reads data
-    ↓
-Frontend (wave 3)
-```
 
 ## Troubleshooting
 

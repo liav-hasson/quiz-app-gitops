@@ -1,10 +1,3 @@
----
-# =============================================================================
-# Loki - ArgoCD Application (Grafana Loki for Log Aggregation)
-# =============================================================================
-# Deploys Loki with Promtail to collect logs from all pods
-# Integrates with Grafana for log visualization
-# =============================================================================
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongo-compass
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"  # Deploy with monitoring stack
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mongo-compass
+  project: default
+  source:
+    repoURL: https://jpavlidis.github.io/mongo-compass-web/
+    chart: mongo-compass
+    targetRevision: 1.0.0
+    helm:
+      values: |
+        ingress:
+          enabled: true
+          className: nginx
+          hosts:
+            - host: compass.example.com
+              paths:
+                - path: /
+                  pathType: Prefix
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
