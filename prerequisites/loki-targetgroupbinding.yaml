@@ -12,13 +12,13 @@ spec:
   serviceRef:
     name: loki
     port: 3100
-  targetGroupARN: "PLACEHOLDER_LOKI_TARGET_GROUP_ARN" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-loki-tg/4e334b65a7293370" # Injected by Terraform
   targetType: ip
   networking:
     ingress:
       - from:
           - securityGroup:
-              groupID: "PLACEHOLDER_ALB_SECURITY_GROUP_ID" # Injected by Terraform
+              groupID: "sg-037b622b33d95a768" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 3100

@@ -12,13 +12,13 @@ spec:
   serviceRef:
     name: argocd-server
     port: 80
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-argocd-tg/8f999fa0c0bf3243" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-argocd-tg/f47e76626e7c8512" # Injected by Terraform
   targetType: ip
   networking:
     ingress:
       - from:
           - securityGroup:
-              groupID: "sg-062fe6f10a3767ec3" # Injected by Terraform
+              groupID: "sg-037b622b33d95a768" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 8080
