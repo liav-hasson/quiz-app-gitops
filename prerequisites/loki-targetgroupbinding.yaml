@@ -1,0 +1,24 @@
+---
+# TargetGroupBinding for Loki
+# Connects Loki service to ALB target group for HTTPS access
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: loki-tgb
+  namespace: monitoring
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"  # After StorageClass and PVs
+spec:
+  serviceRef:
+    name: loki
+    port: 3100
+  targetGroupARN: "PLACEHOLDER_LOKI_TARGET_GROUP_ARN" # Injected by Terraform
+  targetType: ip
+  networking:
+    ingress:
+      - from:
+          - securityGroup:
+              groupID: "PLACEHOLDER_ALB_SECURITY_GROUP_ID" # Injected by Terraform
+        ports:
+          - protocol: TCP
+            port: 3100
