@@ -4,7 +4,7 @@ app:
   image:
     repository: liavvv/quiz-app-front
     pullPolicy: Always  # Always pull latest dev images
-    tag: "v1.0.10-dev-7ded2f11"  # overridden by Jenkins pipeline
+    tag: "v1.0.10-dev-aeafeec0"  # overridden by Jenkins pipeline
   service:
     type: ClusterIP
     port: 80
