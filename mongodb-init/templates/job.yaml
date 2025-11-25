@@ -39,21 +39,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.mongodb.auth.enabled }}
-      initContainers:
-      - name: wait-for-secret
-        image: bitnami/kubectl:latest
-        command:
-          - /bin/bash
-          - -c
-          - |
-            echo "Waiting for secret {{ .Values.mongodb.auth.existingSecret }} to be available..."
-            until kubectl get secret {{ .Values.mongodb.auth.existingSecret }} -n {{ .Release.Namespace }} >/dev/null 2>&1; do
-              echo "Secret not found yet, waiting..."
-              sleep 5
-            done
-            echo "Secret is available!"
-      {{- end }}
       containers:
       - name: mongodb-init
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -66,8 +51,8 @@ spec:
             echo "=== MongoDB Initialization Job Starting ==="
             echo "Connecting to: {{ .Values.mongodb.host }}:{{ .Values.mongodb.port }}"
             
-            {{- if .Values.mongodb.auth.enabled }}
             # Wait for MongoDB to be ready
+            {{- if .Values.mongodb.auth.enabled }}
             until mongosh --host {{ .Values.mongodb.host }} \
                          --port {{ .Values.mongodb.port }} \
                          --username "$MONGODB_USER" \
@@ -77,10 +62,19 @@ spec:
               echo "Waiting for MongoDB to be ready..."
               sleep 5
             done
+            {{- else }}
+            until mongosh --host {{ .Values.mongodb.host }} \
+                         --port {{ .Values.mongodb.port }} \
+                         --eval "db.adminCommand('ping')" > /dev/null 2>&1; do
+              echo "Waiting for MongoDB to be ready..."
+              sleep 5
+            done
+            {{- end }}
             
             echo "MongoDB is ready. Running initialization script..."
             
             # Run the initialization script
+            {{- if .Values.mongodb.auth.enabled }}
             mongosh --host {{ .Values.mongodb.host }} \
                    --port {{ .Values.mongodb.port }} \
                    --username "$MONGODB_USER" \
@@ -89,16 +83,6 @@ spec:
                    {{ .Values.mongodb.database }} \
                    /scripts/init-mongodb.js
             {{- else }}
-            # No authentication
-            until mongosh --host {{ .Values.mongodb.host }} \
-                         --port {{ .Values.mongodb.port }} \
-                         --eval "db.adminCommand('ping')" > /dev/null 2>&1; do
-              echo "Waiting for MongoDB to be ready..."
-              sleep 5
-            done
-            
-            echo "MongoDB is ready. Running initialization script..."
-            
             mongosh --host {{ .Values.mongodb.host }} \
                    --port {{ .Values.mongodb.port }} \
                    {{ .Values.mongodb.database }} \

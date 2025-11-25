@@ -17,14 +17,14 @@ print('Checking database state...');
 const existingCount = db.quiz_data.countDocuments();
 
 if (existingCount > 0) {
-    print(`✓ Database already initialized with ${existingCount} documents`);
-    print('Skipping initialization to preserve existing data.');
-    print('To force re-initialization, manually delete the collection first:');
-    print('  db.quiz_data.deleteMany({})');
-    quit(0);  // Exit successfully without changes
+    print(`Found ${existingCount} existing documents in database`);
+    print('Recreating database from db.json to sync latest changes...');
+    print('Deleting existing data...');
+    const deleteResult = db.quiz_data.deleteMany({});
+    print(`✓ Deleted ${deleteResult.deletedCount} documents`);
+} else {
+    print('Database is empty. Starting initialization...');
 }
-
-print('Database is empty. Starting initialization...');
 
 // Load the JSON data file
 const fs = require('fs');
