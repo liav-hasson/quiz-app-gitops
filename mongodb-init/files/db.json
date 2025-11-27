@@ -172,6 +172,65 @@
         "yes or no + explanation"
       ]
     },
+    "Troubleshooting": {
+      "keywords": [
+        "Root cause analysis",
+        "Logs",
+        "Events",
+        "Metrics",
+        "Debugging pods",
+        "CrashLoopBackOff",
+        "ImagePullBackOff",
+        "NodeNotReady",
+        "Networking issues",
+        "DNS resolution",
+        "Config errors",
+        "Resource exhaustion",
+        "OOMKill",
+        "Throttling"
+      ],
+      "style_modifiers": [
+        "configuration misalignment analysis",
+        "environment comparison (dev/staging/prod)",
+        "failure investigation flow",
+        "logs and events interpretation",
+        "network debugging procedure",
+        "performance degradation diagnosis",
+        "step-by-step remediation plan",
+        "symptom-to-cause breakdown",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Security": {
+      "keywords": [
+        "RBAC",
+        "PodSecurity Standards (PSS)",
+        "NetworkPolicies",
+        "Secrets management",
+        "ServiceAccount",
+        "Admission controllers",
+        "TLS",
+        "mTLS",
+        "Image scanning",
+        "Runtime security",
+        "Audit logs",
+        "OIDC",
+        "IAM roles for service accounts (IRSA)"
+      ],
+      "style_modifiers": [
+        "compliance considerations",
+        "incident response guidance",
+        "least privilege design",
+        "misconfiguration detection",
+        "policy creation workflow",
+        "secure defaults explanation",
+        "security hardening steps",
+        "threat analysis",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
     "Autoscaling & Resources": {
       "keywords": [
         "Horizontal Pod Autoscaler (HPA)",
@@ -1481,8 +1540,39 @@
     }
   },
   "Networking": {
+    "Debugging": {
+      "keywords": [
+        "Packet loss",
+        "High latency",
+        "DNS failures",
+        "Service unreachable",
+        "Port blocking",
+        "Firewall rules",
+        "Routing issues",
+        "Connection reset",
+        "TCP retransmissions",
+        "TLS handshake failure",
+        "Misconfigured load balancer",
+        "CNI plugin errors",
+        "Pod-to-pod connectivity",
+        "Node network issues"
+      ],
+      "style_modifiers": [
+        "brief misconfiguration highlight",
+        "fast checklist-style response",
+        "one-step diagnostic hint",
+        "quick difference explanation",
+        "short root cause summary",
+        "short validation step",
+        "succinct fix recommendation",
+        "tricky question",
+        "yes or no + explanation",
+        "yes or no answer with brief justification"
+      ]
+    },
     "Protocols": {
       "keywords": [
+        "Webhook",
         "TCP",
         "UDP",
         "HTTP",
@@ -1495,8 +1585,7 @@
         "DNS protocol",
         "FTP",
         "SSH protocol",
-        "SMTP",
-        "SNMP"
+        "SMTP"
       ],
       "style_modifiers": [
         "performance and reliability",
@@ -1553,6 +1642,7 @@
     },
     "HTTP": {
       "keywords": [
+        "API",
         "HTTP methods",
         "GET",
         "POST",
@@ -1635,8 +1725,9 @@
         "zone management scenario"
       ]
     },
-    "Commands": {
+    "Linux Commands": {
       "keywords": [
+        "netcat",
         "ping",
         "traceroute",
         "netstat",
@@ -1663,6 +1754,40 @@
         "tricky question",
         "troubleshooting workflow scenario",
         "yes or no + explanation"
+      ]
+    },
+    "On-Premise Networking": {
+      "keywords": [
+        "VLAN",
+        "Trunk ports",
+        "Access ports",
+        "Layer 2 switching",
+        "Layer 3 routing",
+        "Physical firewalls",
+        "ACLs",
+        "Load balancer appliances",
+        "DHCP server",
+        "DNS server",
+        "Spanning Tree Protocol (STP)",
+        "Port channels",
+        "Static routes",
+        "BGP",
+        "OSPF",
+        "Physical cabling",
+        "Rack networking",
+        "Patch panels"
+      ],
+      "style_modifiers": [
+        "brief failure cause highlight",
+        "concise performance impact note",
+        "fast connectivity validation",
+        "quick cloud vs on-prem comparison",
+        "short configuration explanation",
+        "simple design recommendation",
+        "tricky question",
+        "troubleshooting step",
+        "yes or no + explanation",
+        "yes or no with brief justification"
       ]
     }
   },
@@ -1718,14 +1843,45 @@
       "style_modifiers": [
         "HA and DR strategy implementation",
         "architecture design scenario",
+        "architecture improvement scenario",
         "cost-performance optimization",
         "framework principle application",
         "migration and modernization approach",
         "multi-region deployment planning",
-        "pillar application and assessment",
         "resilience pattern implementation",
         "tricky question",
         "yes or no + explanation"
+      ]
+    },
+    "Migration": {
+      "keywords": [
+        "Cloud migration",
+        "Lift-and-shift",
+        "Replatforming",
+        "Refactoring",
+        "Data migration",
+        "Cutover strategy",
+        "Blue/green migration",
+        "Canary migration",
+        "Zero-downtime migration",
+        "Rollback planning",
+        "Stateful workload migration",
+        "Dependency mapping",
+        "Network migration",
+        "IAM migration",
+        "Hybrid migration approach"
+      ],
+      "style_modifiers": [
+        "brief risk summary",
+        "fast checklist-style response",
+        "one-step validation hint",
+        "quick difference explanation",
+        "short migration plan outline",
+        "short trade-off comparison",
+        "succinct recommendation",
+        "tricky question",
+        "yes or no + explanation",
+        "yes or no with short reasoning"
       ]
     },
     "Hybrid Architecture": {

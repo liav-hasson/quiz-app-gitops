@@ -30,7 +30,7 @@ serviceAccount:
 
 targetGroupBinding:
   enabled: true
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-frontend-dev-tg/ecbfd17fcee18bc7" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-frontend-dev-tg/f817b2859474717c" # Injected by Terraform
   targetType: ip
   serviceRef:
     name: "quiz-frontend-dev"
@@ -39,7 +39,7 @@ targetGroupBinding:
     ingress:
       - from:
           - securityGroup:
-              groupID: "sg-0839ad025853e5eeb" # Injected by Terraform
+              groupID: "sg-0022bc18fec7c1151" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 80
