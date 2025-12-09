@@ -89,6 +89,8 @@ externalSecrets:
           remoteKey: /devops-quiz/openai-api-key
         - secretKey: MONGODB_PASSWORD
           remoteKey: /quiz-app/mongodb/root-password
+        - secretKey: INTERNAL_SERVICE_SECRET
+          remoteKey: /quiz-app/internal-service-secret
 
 autoscaling:
   enabled: false

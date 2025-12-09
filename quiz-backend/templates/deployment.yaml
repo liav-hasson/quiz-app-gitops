@@ -46,7 +46,7 @@ spec:
             {{- toYaml .Values.app.env | nindent 12 }}
             {{- if .Values.externalSecrets.enabled }}
             {{- $secretName := (index .Values.externalSecrets.secrets 0).target }}
-            # Secrets from External Secrets (OpenAI API key, MongoDB password)
+            # Secrets from External Secrets (OpenAI API key, MongoDB password, Internal secret)
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -57,6 +57,11 @@ spec:
                 secretKeyRef:
                   name: {{ $secretName }}
                   key: MONGODB_PASSWORD
+            - name: INTERNAL_SERVICE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secretName }}
+                  key: INTERNAL_SERVICE_SECRET
             {{- end }}
             # MongoDB connection
             - name: MONGODB_HOST

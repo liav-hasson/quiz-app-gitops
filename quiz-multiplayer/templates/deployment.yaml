@@ -41,6 +41,11 @@ spec:
                 secretKeyRef:
                   name: {{ (index .Values.externalSecrets.secrets 0).target }}
                   key: JWT_SECRET
+            - name: INTERNAL_SERVICE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (index .Values.externalSecrets.secrets 0).target }}
+                  key: INTERNAL_SERVICE_SECRET
             {{- end }}
           livenessProbe:
             {{- toYaml .Values.probes.liveness | nindent 12 }}

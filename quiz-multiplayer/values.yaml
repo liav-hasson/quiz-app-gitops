@@ -64,6 +64,8 @@ externalSecrets:
       keys:
         - secretKey: JWT_SECRET
           remoteKey: /quiz-app/jwt-secret
+        - secretKey: INTERNAL_SERVICE_SECRET
+          remoteKey: /quiz-app/internal-service-secret
 
 targetGroupBinding:
   enabled: false # Enable when ALB is ready

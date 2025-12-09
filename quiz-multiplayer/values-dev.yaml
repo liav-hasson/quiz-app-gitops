@@ -72,6 +72,8 @@ externalSecrets:
       keys:
         - secretKey: JWT_SECRET
           remoteKey: /quiz-app/jwt-secret
+        - secretKey: INTERNAL_SERVICE_SECRET
+          remoteKey: /quiz-app/internal-service-secret
 
 # Target Group Binding - disabled for dev (no external access needed)
 targetGroupBinding:
