@@ -3,7 +3,7 @@ app:
   replicaCount: 1  # Dev uses fewer replicas
   image:
     repository: liavvv/quiz-multiplayer
-    tag: "v1.0.0"  # overridden by Jenkins pipeline
+    tag: "v1.0.11-dev-fdb8fd0a"  # overridden by Jenkins pipeline
     pullPolicy: Always  # Always pull latest dev images
   service:
     type: ClusterIP
