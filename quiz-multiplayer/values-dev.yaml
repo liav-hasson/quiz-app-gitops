@@ -18,6 +18,11 @@ app:
       value: "5001"
     - name: REQUIRE_AUTHENTICATION
       value: "true"
+    # API server connection (for internal service calls)
+    - name: API_HOST
+      value: "quiz-backend-dev.quiz-backend-dev.svc.cluster.local"
+    - name: API_PORT
+      value: "5000"
     # Redis connection (shared with production)
     - name: REDIS_HOST
       value: "redis.redis.svc.cluster.local"
