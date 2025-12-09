@@ -6,12 +6,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/liavvv/quiz-app.git
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
     targetRevision: main
-    path: gitops/quiz-multiplayer
+    path: quiz-multiplayer
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: quiz-app
+    namespace: quiz-multiplayer
   syncPolicy:
     automated:
       prune: true

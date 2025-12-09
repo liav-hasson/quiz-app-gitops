@@ -1,0 +1,35 @@
+---
+# =============================================================================
+# Quiz Multiplayer DEV - ArgoCD Application
+# =============================================================================
+# Deploys the WebSocket-based multiplayer server to the DEV environment
+# Triggered by pushes to non-main branches
+# =============================================================================
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quiz-multiplayer-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "30"  # Deploy after infrastructure components
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: quiz-multiplayer-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: quiz-multiplayer
+    repoURL: https://github.com/liav-hasson/quiz-app-gitops.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values-dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground

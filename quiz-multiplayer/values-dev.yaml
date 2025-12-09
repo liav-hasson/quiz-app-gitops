@@ -1,24 +1,24 @@
 app:
-  name: quiz-multiplayer
-  replicaCount: 2
+  name: quiz-multiplayer-dev
+  replicaCount: 1  # Dev uses fewer replicas
   image:
     repository: liavvv/quiz-multiplayer
-    tag: "v1.0.0"
-    pullPolicy: IfNotPresent
+    tag: "v1.0.0"  # overridden by Jenkins pipeline
+    pullPolicy: Always  # Always pull latest dev images
   service:
     type: ClusterIP
     port: 5001
     targetPort: 5001
   env:
     - name: FLASK_ENV
-      value: "production"
+      value: "development"  # Dev environment
     - name: PYTHONUNBUFFERED
       value: "1"
     - name: FLASK_PORT
       value: "5001"
     - name: REQUIRE_AUTHENTICATION
       value: "true"
-    # Redis connection (required - no MongoDB for WebSocket server)
+    # Redis connection (shared with production)
     - name: REDIS_HOST
       value: "redis.redis.svc.cluster.local"
     - name: REDIS_PORT
@@ -26,14 +26,20 @@ app:
     - name: AWS_REGION
       value: "eu-north-1"
 
+# Global settings
+nameOverride: ""
+fullnameOverride: "quiz-multiplayer-dev"
+
+# Resource limits and requests (lower for dev)
 resources:
   requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
     cpu: 250m
     memory: 256Mi
-  limits:
-    cpu: 500m
-    memory: 512Mi
 
+# Health checks
 probes:
   liveness:
     httpGet:
@@ -48,27 +54,30 @@ probes:
     initialDelaySeconds: 5
     periodSeconds: 5
 
+# Service Account
 serviceAccount:
   create: true
   annotations:
-    eks.amazonaws.com/role-arn: "arn:aws:iam::937137607178:role/quiz-multiplayer-service-role"
+    eks.amazonaws.com/role-arn: "arn:aws:iam::937137607178:role/quiz-multiplayer-dev-service-role"
 
+# External Secrets - uses same JWT secret as production
 externalSecrets:
   enabled: true
   secretStore:
     name: aws-parameter-store
     region: eu-north-1
   secrets:
-    - name: quiz-multiplayer-secrets
-      target: quiz-multiplayer-secrets
+    - name: quiz-multiplayer-dev-secrets
+      target: quiz-multiplayer-dev-secrets
       keys:
         - secretKey: JWT_SECRET
           remoteKey: /quiz-app/jwt-secret
 
+# Target Group Binding - disabled for dev (no external access needed)
 targetGroupBinding:
-  enabled: false # Enable when ALB is ready
+  enabled: false
   serviceRef:
-    name: quiz-multiplayer
+    name: quiz-multiplayer-dev
     port: 5001
-  targetGroupARN: "" # Fill in ARN
+  targetGroupARN: ""
   targetType: ip
