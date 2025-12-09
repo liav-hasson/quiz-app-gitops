@@ -31,6 +31,9 @@ spec:
             # Backend service URL for nginx proxy (templated from values.yaml)
             - name: BACKEND_URL
               value: "{{ .Values.app.backend.serviceName }}.{{ .Values.app.backend.namespace }}.svc.cluster.local:{{ .Values.app.backend.port }}"
+            # Multiplayer service URL for nginx websocket proxy
+            - name: MULTIPLAYER_URL
+              value: "{{ .Values.app.multiplayer.serviceName }}.{{ .Values.app.multiplayer.namespace }}.svc.cluster.local:{{ .Values.app.multiplayer.port }}"
           livenessProbe:
             {{- toYaml .Values.probes.liveness | nindent 12 }}
           readinessProbe:

@@ -17,6 +17,13 @@ app:
     namespace: quiz-backend-dev
     port: 5000
   
+  # Multiplayer service configuration for nginx websocket proxy
+  # Points to dev multiplayer in dev namespace
+  multiplayer:
+    serviceName: quiz-multiplayer-dev
+    namespace: quiz-multiplayer-dev
+    port: 5001
+  
   env: []
 
 nameOverride: ""
