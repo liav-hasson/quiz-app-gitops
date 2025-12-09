@@ -1,0 +1,74 @@
+app:
+  name: quiz-multiplayer
+  replicaCount: 2
+  image:
+    repository: liavvv/quiz-multiplayer
+    tag: "v1.0.0"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 5001
+    targetPort: 5001
+  env:
+    - name: FLASK_ENV
+      value: "production"
+    - name: PYTHONUNBUFFERED
+      value: "1"
+    - name: FLASK_PORT
+      value: "5001"
+    - name: REQUIRE_AUTHENTICATION
+      value: "true"
+    # Redis connection (required - no MongoDB for WebSocket server)
+    - name: REDIS_HOST
+      value: "redis.redis.svc.cluster.local"
+    - name: REDIS_PORT
+      value: "6379"
+    - name: AWS_REGION
+      value: "eu-north-1"
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+probes:
+  liveness:
+    httpGet:
+      path: /api/health
+      port: 5001
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readiness:
+    httpGet:
+      path: /api/health
+      port: 5001
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+serviceAccount:
+  create: true
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::ACCOUNT_ID:role/quiz-multiplayer-service-role"
+
+externalSecrets:
+  enabled: true
+  secretStore:
+    name: aws-parameter-store
+    region: eu-north-1
+  secrets:
+    - name: quiz-multiplayer-secrets
+      target: quiz-multiplayer-secrets
+      keys:
+        - secretKey: JWT_SECRET
+          remoteKey: /quiz-app/jwt-secret
+
+targetGroupBinding:
+  enabled: false # Enable when ALB is ready
+  serviceRef:
+    name: quiz-multiplayer
+    port: 5001
+  targetGroupARN: "" # Fill in ARN
+  targetType: ip

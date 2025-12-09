@@ -65,6 +65,13 @@ spec:
               value: {{ .Values.mongodb.port | quote }}
             - name: MONGODB_USERNAME
               value: "root"
+            {{- if .Values.redis }}
+            # Redis connection (for multiplayer event publishing)
+            - name: REDIS_HOST
+              value: {{ .Values.redis.host | quote }}
+            - name: REDIS_PORT
+              value: {{ .Values.redis.port | quote }}
+            {{- end }}
             # Disable auto-migration in production (mongodb-init Job handles initialization)
             - name: AUTO_MIGRATE_DB
               value: "false"

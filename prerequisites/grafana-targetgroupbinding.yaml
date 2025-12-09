@@ -12,13 +12,13 @@ spec:
   serviceRef:
     name: monitoring-grafana
     port: 80
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-grafana-tg/fb59f6c77755143d" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:937137607178:targetgroup/devops-quiz-eks-grafana-tg/eea9ea754d48c203" # Injected by Terraform
   targetType: ip
   networking:
     ingress:
       - from:
           - securityGroup:
-              groupID: "sg-0022bc18fec7c1151" # Injected by Terraform
+              groupID: "sg-0c08a24b548e2f8b9" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 80

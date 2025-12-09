@@ -87,6 +87,57 @@
         "workflow sequencing",
         "yes or no + explanation"
       ]
+    },
+    "Container Security": {
+      "keywords": [
+        "Image scanning",
+        "Vulnerability patching",
+        "Rootless containers",
+        "Daemonless containers",
+        "Seccomp",
+        "AppArmor",
+        "SELinux",
+        "Capabilities drop",
+        "Read-only file system",
+        "Trusted registries",
+        "Image signing (cosign/notary)",
+        "Runtime security",
+        "Least privilege containers",
+        "Namespace isolation",
+        "cgroups"
+      ],
+      "style_modifiers": [
+        "short security best practice",
+        "risk explanation",
+        "yes or no with justification",
+        "simple configuration tip",
+        "brief weakness highlight",
+        "comparison"
+      ]
+    },
+    "Docker Alternatives": {
+      "keywords": [
+        "containerd",
+        "CRI-O",
+        "Podman",
+        "Kata Containers",
+        "buildkit",
+        "Buildah",
+        "Kaniko",
+        "Nerdctl",
+        "Dockerless builds",
+        "Rootless containers",
+        "Container runtime interface (CRI)"
+      ],
+      "style_modifiers": [
+        "quick comparison",
+        "yes or no with short justification",
+        "short pros and cons",
+        "brief usage recommendation",
+        "performance vs security summary",
+        "simple compatibility check",
+        "troubleshooting hint"
+      ]
     }
   },
   "Kubernetes": {
@@ -105,7 +156,10 @@
         "Namespace",
         "Labels & Selectors",
         "Job",
-        "CronJob"
+        "CronJob",
+        "Init containers",
+        "Sidecar containers",
+        "Ephemeral containers"
       ],
       "style_modifiers": [
         "code snippet",
@@ -202,7 +256,7 @@
         "yes or no + explanation"
       ]
     },
-    "Security": {
+    "Kubernetes security": {
       "keywords": [
         "RBAC",
         "PodSecurity Standards (PSS)",
@@ -258,7 +312,7 @@
         "yes or no + explanation"
       ]
     },
-    "Networking": {
+    "Kubernetes Networking": {
       "keywords": [
         "Network policies",
         "CNI (Container Network Interface)",
@@ -287,7 +341,7 @@
         "yes or no + explanation"
       ]
     },
-    "Storage": {
+    "Kubernetes Storage": {
       "keywords": [
         "PersistentVolume (PV)",
         "PersistentVolumeClaim (PVC)",
@@ -313,7 +367,7 @@
         "yes or no + explanation"
       ]
     },
-    "Commands": {
+    "Kubectl Commands": {
       "keywords": [
         "kubectl create",
         "kubectl apply",
@@ -336,7 +390,8 @@
         "kubectl drain",
         "kubectl cordon",
         "kubectl uncordon",
-        "kubectl rollout"
+        "kubectl rollout",
+        "kubectl debug"
       ],
       "style_modifiers": [
         "command comparison and selection",
@@ -344,6 +399,270 @@
         "flag explanation and usage",
         "tricky question",
         "troubleshooting command sequence",
+        "yes or no + explanation"
+      ]
+    },
+    "ArgoCD Architecture": {
+      "keywords": [
+        "Application Controller",
+        "Repository Server",
+        "API Server",
+        "Redis",
+        "ApplicationSet",
+        "App of Apps pattern",
+        "Sync strategies",
+        "Sync phases",
+        "Sync waves",
+        "Sync hooks",
+        "Health status",
+        "ArgoCD CRDs",
+        "Projects",
+        "Multi-tenancy"
+      ],
+      "style_modifiers": [
+        "architecture design scenario",
+        "component interaction explanation",
+        "high availability setup",
+        "multi-tenancy configuration",
+        "pattern application use case",
+        "sync strategy implementation",
+        "tricky question",
+        "troubleshooting component issues",
+        "yes or no + explanation"
+      ]
+    },
+    "ArgoCD Commands": {
+      "keywords": [
+        "argocd app create",
+        "argocd app sync",
+        "argocd app get",
+        "argocd app list",
+        "argocd app delete",
+        "argocd app set",
+        "argocd app diff",
+        "argocd app rollback",
+        "argocd app history",
+        "argocd repo add",
+        "argocd cluster add",
+        "argocd login",
+        "argocd project create",
+        "argocd app wait",
+        "argocd app manifests"
+      ],
+      "style_modifiers": [
+        "cluster management task",
+        "command flags and options",
+        "command usage and syntax",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "ArgoCD Concepts": {
+      "keywords": [
+        "Application manifest",
+        "Sync status",
+        "Out of sync",
+        "Sync policy",
+        "Auto-sync",
+        "Self-heal",
+        "Prune resources",
+        "Refresh",
+        "SSO integration",
+        "Notification system",
+        "Resource hooks"
+      ],
+      "style_modifiers": [
+        "automation strategy design",
+        "concept definition and usage",
+        "configuration scenario",
+        "resource management workflow",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Helm Commands": {
+      "keywords": [
+        "helm install",
+        "helm upgrade",
+        "helm rollback",
+        "helm list",
+        "helm uninstall",
+        "helm repo add",
+        "helm repo update",
+        "helm search repo",
+        "helm search hub",
+        "helm show",
+        "helm create",
+        "helm package",
+        "helm dependency",
+        "helm test",
+        "helm get values"
+      ],
+      "style_modifiers": [
+        "command flags and options",
+        "command syntax and usage",
+        "tricky question",
+        "troubleshooting command sequence",
+        "yes or no + explanation"
+      ]
+    },
+    "Helm Architecture": {
+      "keywords": [
+        "Helm chart",
+        "Chart.yaml",
+        "values.yaml",
+        "templates/ directory",
+        "Release",
+        "Chart repository",
+        "Helm Hub (Artifact Hub)",
+        "Chart dependencies",
+        "Helm hooks",
+        "Subchart",
+        "Parent chart",
+        "Chart versioning",
+        ".helmignore"
+      ],
+      "style_modifiers": [
+        "chart organization best practices",
+        "chart structure explanation",
+        "hook implementation scenario",
+        "release management workflow",
+        "templating strategy design",
+        "tricky question",
+        "versioning scheme implementation",
+        "yes or no + explanation"
+      ]
+    },
+    "Service Mesh Basics": {
+      "keywords": [
+        "Service mesh",
+        "Sidecar proxy",
+        "Control plane",
+        "Data plane",
+        "Service discovery",
+        "Load balancing strategies",
+        "Circuit breaking",
+        "Retry policies",
+        "Timeout policies",
+        "Fault injection",
+        "Observability",
+        "Distributed tracing"
+      ],
+      "style_modifiers": [
+        "core concept and architecture",
+        "observability configuration",
+        "performance and security trade-offs",
+        "resilience pattern implementation",
+        "service mesh adoption rationale",
+        "traffic management scenario",
+        "tricky question",
+        "troubleshooting mesh connectivity",
+        "yes or no + explanation"
+      ]
+    },
+    "Service Mesh - Istio": {
+      "keywords": [
+        "Istio architecture",
+        "Envoy proxy",
+        "Istiod",
+        "Pilot",
+        "Virtual Service",
+        "Destination Rule",
+        "Gateway",
+        "Service Entry",
+        "Sidecar resource",
+        "Traffic management",
+        "mTLS in Istio",
+        "Telemetry v2",
+        "Istio ingress",
+        "Istio egress"
+      ],
+      "style_modifiers": [
+        "canary deployment scenario",
+        "component interaction explanation",
+        "gateway setup and management",
+        "mTLS configuration approach",
+        "observability integration",
+        "security policy implementation",
+        "traffic routing configuration",
+        "tricky question",
+        "troubleshooting traffic flow",
+        "yes or no + explanation"
+      ]
+    },
+    "Service Mesh - Policy Engines": {
+      "keywords": [
+        "Kyverno",
+        "OPA (Open Policy Agent)",
+        "Policy as Code",
+        "Admission controller",
+        "Validating webhook",
+        "Mutating webhook",
+        "Validation policies",
+        "Mutation policies",
+        "Generation policies",
+        "ClusterPolicy",
+        "Policy reports",
+        "Background scanning",
+        "Policy exceptions"
+      ],
+      "style_modifiers": [
+        "compliance enforcement implementation",
+        "exception handling approach",
+        "integration with CI/CD pipeline",
+        "policy engine architecture",
+        "policy rule creation scenario",
+        "policy testing strategy",
+        "tricky question",
+        "troubleshooting policy violations",
+        "validation vs mutation comparison",
+        "yes or no + explanation"
+      ]
+    },
+    "Operators & CRDs": {
+      "keywords": [
+        "Custom Resource Definition (CRD)",
+        "Custom Resource (CR)",
+        "Operator pattern",
+        "Operator SDK",
+        "Kubebuilder",
+        "Controller runtime",
+        "Reconciliation loop",
+        "Finalizers",
+        "Operator Lifecycle Manager (OLM)",
+        "OperatorHub",
+        "Level-based triggering",
+        "Edge-based triggering"
+      ],
+      "style_modifiers": [
+        "operator design scenario",
+        "CRD creation workflow",
+        "reconciliation logic explanation",
+        "use case implementation",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Gateway API": {
+      "keywords": [
+        "Gateway API",
+        "GatewayClass",
+        "Gateway resource",
+        "HTTPRoute",
+        "TCPRoute",
+        "TLSRoute",
+        "ReferenceGrant",
+        "BackendRef",
+        "Gateway API vs Ingress",
+        "Traffic splitting",
+        "Header-based routing",
+        "Gateway controller"
+      ],
+      "style_modifiers": [
+        "migration from Ingress",
+        "routing configuration scenario",
+        "traffic management design",
+        "tricky question",
         "yes or no + explanation"
       ]
     }
@@ -643,7 +962,7 @@
     }
   },
   "Cloud": {
-    "Basics": {
+    "Core cloud concepts": {
       "keywords": [
         "On-premise",
         "Cloud Computing",
@@ -805,6 +1124,261 @@
         "monitoring and alerting setup",
         "performance monitoring",
         "pipeline construction scenario",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Solutions Architecture - Design Patterns": {
+      "keywords": [
+        "Microservices architecture",
+        "Event-driven architecture",
+        "Serverless architecture",
+        "N-tier architecture",
+        "CQRS",
+        "Event sourcing",
+        "Saga pattern",
+        "Strangler Fig pattern",
+        "Anti-corruption layer",
+        "Bulkhead pattern",
+        "Queue-based load leveling",
+        "Cache-aside pattern",
+        "Circuit breaker pattern",
+        "Retry pattern"
+      ],
+      "style_modifiers": [
+        "anti-pattern identification",
+        "implementation scenario and design",
+        "migration strategy to pattern",
+        "pattern explanation and use case",
+        "pattern selection rationale",
+        "real-world application example",
+        "scalability and resilience benefits",
+        "trade-offs and considerations",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Cloud Architecture": {
+      "keywords": [
+        "Multi-cloud strategy",
+        "Cloud-native architecture",
+        "AWS Well-Architected Framework",
+        "Cost optimization",
+        "Performance efficiency",
+        "Reliability pillar",
+        "Security pillar",
+        "Operational excellence",
+        "High availability (HA)",
+        "Disaster recovery (DR)",
+        "RTO (Recovery Time Objective)",
+        "RPO (Recovery Point Objective)",
+        "Fault tolerance",
+        "Geographic distribution",
+        "Sustainability pillar"
+      ],
+      "style_modifiers": [
+        "HA and DR strategy implementation",
+        "architecture design scenario",
+        "architecture improvement scenario",
+        "cost-performance optimization",
+        "framework principle application",
+        "migration and modernization approach",
+        "multi-region deployment planning",
+        "resilience pattern implementation",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Migration": {
+      "keywords": [
+        "Cloud migration",
+        "Lift-and-shift",
+        "Replatforming",
+        "Refactoring",
+        "Data migration",
+        "Cutover strategy",
+        "Blue/green migration",
+        "Canary migration",
+        "Zero-downtime migration",
+        "Rollback planning",
+        "Stateful workload migration",
+        "Dependency mapping",
+        "Network migration",
+        "IAM migration",
+        "Hybrid migration approach"
+      ],
+      "style_modifiers": [
+        "brief risk summary",
+        "fast checklist-style response",
+        "one-step validation hint",
+        "quick difference explanation",
+        "short migration plan outline",
+        "short trade-off comparison",
+        "succinct recommendation",
+        "tricky question",
+        "yes or no + explanation",
+        "yes or no with short reasoning"
+      ]
+    },
+    "Hybrid Architecture": {
+      "keywords": [
+        "Hybrid cloud architecture",
+        "On-premises integration",
+        "Cloud bursting",
+        "Data residency requirements",
+        "Latency considerations",
+        "Hybrid connectivity",
+        "AWS Direct Connect",
+        "Azure ExpressRoute",
+        "VPN tunnels",
+        "Edge computing",
+        "Hybrid identity management",
+        "Workload placement"
+      ],
+      "style_modifiers": [
+        "compliance and data residency",
+        "connectivity solution selection",
+        "cost and latency trade-offs",
+        "hybrid architecture design scenario",
+        "identity and access management",
+        "migration and integration planning",
+        "performance optimization approach",
+        "tricky question",
+        "workload placement strategy",
+        "yes or no + explanation"
+      ]
+    },
+    "On-Premises": {
+      "keywords": [
+        "Data center infrastructure",
+        "Bare metal servers",
+        "Hypervisor",
+        "VMware vSphere",
+        "Proxmox",
+        "KVM (Kernel-based Virtual Machine)",
+        "Storage arrays",
+        "SAN (Storage Area Network)",
+        "NAS (Network Attached Storage)",
+        "Rack units (U)",
+        "Colocation facility"
+      ],
+      "style_modifiers": [
+        "capacity planning scenario",
+        "disaster recovery planning",
+        "hardware selection rationale",
+        "high availability configuration",
+        "infrastructure component explanation",
+        "migration to cloud considerations",
+        "storage architecture design",
+        "tricky question",
+        "virtualization platform comparison",
+        "yes or no + explanation"
+      ]
+    },
+    "Company Scenarios": {
+      "keywords": [
+        "Fintech startup",
+        "Gaming backend",
+        "E-commerce platform",
+        "SaaS B2B platform",
+        "Real-time chat application",
+        "AI/ML infrastructure",
+        "Media streaming platform",
+        "Healthcare SaaS system",
+        "Ride-sharing platform",
+        "IoT data ingestion platform",
+        "EdTech platform",
+        "Cybersecurity SaaS",
+        "Market trading platform",
+        "Social media application",
+        "Log analytics SaaS"
+      ],
+      "style_modifiers": [
+        "architecture improvement suggestion",
+        "infrastructure design choice",
+        "database selection decision",
+        "caching strategy choice",
+        "scaling approach selection",
+        "high availability design check",
+        "security posture assessment",
+        "cost optimization direction",
+        "multi-region yes or no",
+        "single vs multi-cluster decision",
+        "stateful vs stateless workload choice"
+      ]
+    },
+    "AWS Containers & Serverless": {
+      "keywords": [
+        "EKS (Elastic Kubernetes Service)",
+        "EKS Fargate",
+        "ECS (Elastic Container Service)",
+        "Fargate",
+        "App Runner",
+        "EKS managed node groups",
+        "EKS add-ons",
+        "ECR (Elastic Container Registry)",
+        "Lambda container images",
+        "Step Functions",
+        "EventBridge",
+        "SQS",
+        "SNS",
+        "API Gateway"
+      ],
+      "style_modifiers": [
+        "service selection rationale",
+        "comparison to similar service",
+        "compare to another provider",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "FinOps & Cost Management": {
+      "keywords": [
+        "FinOps",
+        "Cost allocation",
+        "Cost allocation tags",
+        "Reserved Instances",
+        "Savings Plans",
+        "Spot Instances",
+        "On-demand pricing",
+        "Right-sizing",
+        "AWS Cost Explorer",
+        "AWS Budgets",
+        "Kubecost",
+        "Cloud cost anomaly detection",
+        "Chargeback",
+        "Showback",
+        "Compute Optimizer"
+      ],
+      "style_modifiers": [
+        "cost optimization scenario",
+        "tagging strategy design",
+        "keyword meaning",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Platform Engineering": {
+      "keywords": [
+        "Internal Developer Platform (IDP)",
+        "Backstage",
+        "Port",
+        "Kratix",
+        "Developer portal",
+        "Self-service infrastructure",
+        "Golden paths",
+        "Platform team",
+        "Developer experience (DevEx)",
+        "Service catalog",
+        "Software templates",
+        "Scaffolding",
+        "Platform as a Product"
+      ],
+      "style_modifiers": [
+        "platform design scenario",
+        "developer experience improvement",
+        "self-service workflow design",
+        "tool selection rationale",
         "tricky question",
         "yes or no + explanation"
       ]
@@ -1043,7 +1617,7 @@
       ]
     }
   },
-  "CI/CD": {
+  "DevOps, CI/CD and IaC": {
     "DevOps Methodology": {
       "keywords": [
         "DevOps",
@@ -1174,139 +1748,6 @@
         "yes or no + explanation"
       ]
     },
-    "ArgoCD Architecture": {
-      "keywords": [
-        "Application Controller",
-        "Repository Server",
-        "API Server",
-        "Redis",
-        "ApplicationSet",
-        "App of Apps pattern",
-        "Sync strategies",
-        "Sync phases",
-        "Sync waves",
-        "Sync hooks",
-        "Health status",
-        "ArgoCD CRDs",
-        "Projects",
-        "Multi-tenancy"
-      ],
-      "style_modifiers": [
-        "architecture design scenario",
-        "component interaction explanation",
-        "high availability setup",
-        "multi-tenancy configuration",
-        "pattern application use case",
-        "sync strategy implementation",
-        "tricky question",
-        "troubleshooting component issues",
-        "yes or no + explanation"
-      ]
-    },
-    "ArgoCD Commands": {
-      "keywords": [
-        "argocd app create",
-        "argocd app sync",
-        "argocd app get",
-        "argocd app list",
-        "argocd app delete",
-        "argocd app set",
-        "argocd app diff",
-        "argocd app rollback",
-        "argocd app history",
-        "argocd repo add",
-        "argocd cluster add",
-        "argocd login",
-        "argocd project create",
-        "argocd app wait",
-        "argocd app manifests"
-      ],
-      "style_modifiers": [
-        "cluster management task",
-        "command flags and options",
-        "command usage and syntax",
-        "tricky question",
-        "yes or no + explanation"
-      ]
-    },
-    "ArgoCD Concepts": {
-      "keywords": [
-        "Application manifest",
-        "Sync status",
-        "Out of sync",
-        "Sync policy",
-        "Auto-sync",
-        "Self-heal",
-        "Prune resources",
-        "Refresh",
-        "SSO integration",
-        "Notification system",
-        "Resource hooks"
-      ],
-      "style_modifiers": [
-        "automation strategy design",
-        "concept definition and usage",
-        "configuration scenario",
-        "resource management workflow",
-        "tricky question",
-        "yes or no + explanation"
-      ]
-    },
-    "Helm Commands": {
-      "keywords": [
-        "helm install",
-        "helm upgrade",
-        "helm rollback",
-        "helm list",
-        "helm uninstall",
-        "helm repo add",
-        "helm repo update",
-        "helm search repo",
-        "helm search hub",
-        "helm show",
-        "helm create",
-        "helm package",
-        "helm dependency",
-        "helm test",
-        "helm get values"
-      ],
-      "style_modifiers": [
-        "command flags and options",
-        "command syntax and usage",
-        "tricky question",
-        "troubleshooting command sequence",
-        "yes or no + explanation"
-      ]
-    },
-    "Helm Architecture": {
-      "keywords": [
-        "Helm chart",
-        "Chart.yaml",
-        "values.yaml",
-        "templates/ directory",
-        "Release",
-        "Chart repository",
-        "Helm Hub (Artifact Hub)",
-        "Chart dependencies",
-        "Helm hooks",
-        "Subchart",
-        "Parent chart",
-        "Chart versioning",
-        ".helmignore"
-      ],
-      "style_modifiers": [
-        "chart organization best practices",
-        "chart structure explanation",
-        "hook implementation scenario",
-        "release management workflow",
-        "templating strategy design",
-        "tricky question",
-        "versioning scheme implementation",
-        "yes or no + explanation"
-      ]
-    }
-  },
-  "IaC": {
     "Ansible": {
       "keywords": [
         "Ansible",
@@ -1338,6 +1779,7 @@
     "Terraform": {
       "keywords": [
         "Terraform",
+        "Terragrunt",
         "Immutable infrastructure paradigm",
         "Providers",
         "Resources",
@@ -1449,92 +1891,84 @@
         "tricky question",
         "yes or no + explanation"
       ]
-    }
-  },
-  "Service Mesh": {
-    "Basics": {
+    },
+    "FinOps & Cost Management": {
       "keywords": [
-        "Service mesh",
-        "Sidecar proxy",
-        "Control plane",
-        "Data plane",
-        "Service discovery",
-        "Load balancing strategies",
-        "Circuit breaking",
-        "Retry policies",
-        "Timeout policies",
-        "Fault injection",
-        "Observability",
-        "Distributed tracing"
+        "FinOps",
+        "Cost allocation",
+        "Cost allocation tags",
+        "Reserved Instances",
+        "Savings Plans",
+        "Spot Instances",
+        "On-demand pricing",
+        "Right-sizing",
+        "AWS Cost Explorer",
+        "AWS Budgets",
+        "Kubecost",
+        "Cloud cost anomaly detection",
+        "Chargeback",
+        "Showback",
+        "Compute Optimizer"
       ],
       "style_modifiers": [
-        "core concept and architecture",
-        "observability configuration",
-        "performance and security trade-offs",
-        "resilience pattern implementation",
-        "service mesh adoption rationale",
-        "traffic management scenario",
+        "cost optimization scenario",
+        "pricing model comparison",
+        "tagging strategy design",
+        "budget alert configuration",
         "tricky question",
-        "troubleshooting mesh connectivity",
         "yes or no + explanation"
       ]
     },
-    "Istio": {
+    "Platform Engineering": {
       "keywords": [
-        "Istio architecture",
-        "Envoy proxy",
-        "Istiod",
-        "Pilot",
-        "Virtual Service",
-        "Destination Rule",
-        "Gateway",
-        "Service Entry",
-        "Sidecar resource",
-        "Traffic management",
-        "mTLS in Istio",
-        "Telemetry v2",
-        "Istio ingress",
-        "Istio egress"
+        "Internal Developer Platform (IDP)",
+        "Backstage",
+        "Port",
+        "Kratix",
+        "Developer portal",
+        "Self-service infrastructure",
+        "Golden paths",
+        "Platform team",
+        "Developer experience (DevEx)",
+        "Service catalog",
+        "Software templates",
+        "Scaffolding",
+        "Platform as a Product"
       ],
       "style_modifiers": [
-        "canary deployment scenario",
-        "component interaction explanation",
-        "gateway setup and management",
-        "mTLS configuration approach",
-        "observability integration",
-        "security policy implementation",
-        "traffic routing configuration",
+        "platform design scenario",
+        "developer experience improvement",
+        "self-service workflow design",
+        "tool selection rationale",
         "tricky question",
-        "troubleshooting traffic flow",
         "yes or no + explanation"
       ]
     },
-    "Policy Engines": {
+    "Testing in DevOps": {
       "keywords": [
-        "Kyverno",
-        "OPA (Open Policy Agent)",
-        "Policy as Code",
-        "Admission controller",
-        "Validating webhook",
-        "Mutating webhook",
-        "Validation policies",
-        "Mutation policies",
-        "Generation policies",
-        "ClusterPolicy",
-        "Policy reports",
-        "Background scanning",
-        "Policy exceptions"
+        "Unit testing",
+        "Integration testing",
+        "End-to-end testing",
+        "Contract testing",
+        "Pact",
+        "Chaos engineering",
+        "Chaos Monkey",
+        "Litmus Chaos",
+        "Gremlin",
+        "Load testing",
+        "k6",
+        "Locust",
+        "JMeter",
+        "Gatling",
+        "Test automation",
+        "Test pyramid"
       ],
       "style_modifiers": [
-        "compliance enforcement implementation",
-        "exception handling approach",
-        "integration with CI/CD pipeline",
-        "policy engine architecture",
-        "policy rule creation scenario",
-        "policy testing strategy",
+        "test strategy design",
+        "chaos experiment scenario",
+        "load testing configuration",
+        "test pyramid implementation",
         "tricky question",
-        "troubleshooting policy violations",
-        "validation vs mutation comparison",
         "yes or no + explanation"
       ]
     }
@@ -1572,6 +2006,7 @@
     },
     "Protocols": {
       "keywords": [
+        "QUIC",
         "Webhook",
         "TCP",
         "UDP",
@@ -1725,7 +2160,7 @@
         "zone management scenario"
       ]
     },
-    "Linux Commands": {
+    "Linux Networking Commands": {
       "keywords": [
         "netcat",
         "ping",
@@ -1756,7 +2191,7 @@
         "yes or no + explanation"
       ]
     },
-    "On-Premise Networking": {
+    "Physical Networking": {
       "keywords": [
         "VLAN",
         "Trunk ports",
@@ -1786,156 +2221,31 @@
         "simple design recommendation",
         "tricky question",
         "troubleshooting step",
-        "yes or no + explanation",
         "yes or no with brief justification"
       ]
-    }
-  },
-  "Solutions Architecture": {
-    "Design Patterns": {
-      "keywords": [
-        "Microservices architecture",
-        "Event-driven architecture",
-        "Serverless architecture",
-        "N-tier architecture",
-        "CQRS",
-        "Event sourcing",
-        "Saga pattern",
-        "Strangler Fig pattern",
-        "Anti-corruption layer",
-        "Bulkhead pattern",
-        "Queue-based load leveling",
-        "Cache-aside pattern",
-        "Circuit breaker pattern",
-        "Retry pattern"
-      ],
-      "style_modifiers": [
-        "anti-pattern identification",
-        "implementation scenario and design",
-        "migration strategy to pattern",
-        "pattern explanation and use case",
-        "pattern selection rationale",
-        "real-world application example",
-        "scalability and resilience benefits",
-        "trade-offs and considerations",
-        "tricky question",
-        "yes or no + explanation"
-      ]
     },
-    "Cloud Architecture": {
+    "Modern Networking": {
       "keywords": [
-        "Multi-cloud strategy",
-        "Cloud-native architecture",
-        "AWS Well-Architected Framework",
-        "Cost optimization",
-        "Performance efficiency",
-        "Reliability pillar",
-        "Security pillar",
-        "Operational excellence",
-        "High availability (HA)",
-        "Disaster recovery (DR)",
-        "RTO (Recovery Time Objective)",
-        "RPO (Recovery Point Objective)",
-        "Fault tolerance",
-        "Geographic distribution",
-        "Sustainability pillar"
+        "eBPF",
+        "Cilium",
+        "Cilium Network Policies",
+        "Hubble",
+        "Falco",
+        "Zero Trust Networking",
+        "Zero Trust Architecture",
+        "Linkerd",
+        "Consul Connect",
+        "mTLS implementation",
+        "Service mesh comparison",
+        "Identity-based networking",
+        "Microsegmentation"
       ],
       "style_modifiers": [
-        "HA and DR strategy implementation",
-        "architecture design scenario",
-        "architecture improvement scenario",
-        "cost-performance optimization",
-        "framework principle application",
-        "migration and modernization approach",
-        "multi-region deployment planning",
-        "resilience pattern implementation",
+        "eBPF use case explanation",
+        "zero trust implementation",
+        "service mesh selection",
+        "network observability design",
         "tricky question",
-        "yes or no + explanation"
-      ]
-    },
-    "Migration": {
-      "keywords": [
-        "Cloud migration",
-        "Lift-and-shift",
-        "Replatforming",
-        "Refactoring",
-        "Data migration",
-        "Cutover strategy",
-        "Blue/green migration",
-        "Canary migration",
-        "Zero-downtime migration",
-        "Rollback planning",
-        "Stateful workload migration",
-        "Dependency mapping",
-        "Network migration",
-        "IAM migration",
-        "Hybrid migration approach"
-      ],
-      "style_modifiers": [
-        "brief risk summary",
-        "fast checklist-style response",
-        "one-step validation hint",
-        "quick difference explanation",
-        "short migration plan outline",
-        "short trade-off comparison",
-        "succinct recommendation",
-        "tricky question",
-        "yes or no + explanation",
-        "yes or no with short reasoning"
-      ]
-    },
-    "Hybrid Architecture": {
-      "keywords": [
-        "Hybrid cloud architecture",
-        "On-premises integration",
-        "Cloud bursting",
-        "Data residency requirements",
-        "Latency considerations",
-        "Hybrid connectivity",
-        "AWS Direct Connect",
-        "Azure ExpressRoute",
-        "VPN tunnels",
-        "Edge computing",
-        "Hybrid identity management",
-        "Workload placement"
-      ],
-      "style_modifiers": [
-        "compliance and data residency",
-        "connectivity solution selection",
-        "cost and latency trade-offs",
-        "hybrid architecture design scenario",
-        "identity and access management",
-        "migration and integration planning",
-        "performance optimization approach",
-        "tricky question",
-        "workload placement strategy",
-        "yes or no + explanation"
-      ]
-    },
-    "On-Premises": {
-      "keywords": [
-        "Data center infrastructure",
-        "Bare metal servers",
-        "Hypervisor",
-        "VMware vSphere",
-        "Proxmox",
-        "KVM (Kernel-based Virtual Machine)",
-        "Storage arrays",
-        "SAN (Storage Area Network)",
-        "NAS (Network Attached Storage)",
-        "Rack units (U)",
-        "Colocation facility"
-      ],
-      "style_modifiers": [
-        "capacity planning scenario",
-        "disaster recovery planning",
-        "hardware selection rationale",
-        "high availability configuration",
-        "infrastructure component explanation",
-        "migration to cloud considerations",
-        "storage architecture design",
-        "tricky question",
-        "virtualization platform comparison",
         "yes or no + explanation"
       ]
     }
@@ -2077,13 +2387,13 @@
       ]
     }
   },
-  "Bash": {
+  "Linux & Scripting": {
     "System Monitoring": {
       "keywords": [
         "top",
         "htop",
         "ps aux",
-        "ps -ef",
+        "ps",
         "pgrep",
         "pkill",
         "kill",
@@ -2091,9 +2401,9 @@
         "nice",
         "renice",
         "uptime",
-        "free -h",
-        "df -h",
-        "du -h",
+        "free",
+        "df",
+        "du",
         "iostat",
         "vmstat",
         "lsof",
@@ -2206,6 +2516,39 @@
         "command output",
         "command use case",
         "one line code syntax challange",
+        "tricky question",
+        "yes or no + explanation"
+      ]
+    },
+    "Python for DevOps": {
+      "keywords": [
+        "subprocess module",
+        "os module",
+        "sys module",
+        "pathlib",
+        "shutil",
+        "argparse",
+        "json module",
+        "yaml module (PyYAML)",
+        "requests library",
+        "boto3 (AWS SDK)",
+        "paramiko (SSH)",
+        "fabric",
+        "Jinja2 templating",
+        "logging module",
+        "virtualenv",
+        "pip",
+        "poetry",
+        "Python scripts in CI/CD",
+        "API scripting",
+        "Log parsing with Python"
+      ],
+      "style_modifiers": [
+        "code snippet",
+        "module comparison and selection",
+        "automation use case",
+        "error handling scenario",
+        "one-liner challenge",
         "tricky question",
         "yes or no + explanation"
       ]

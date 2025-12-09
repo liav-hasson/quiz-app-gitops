@@ -36,7 +36,7 @@ ingress:
 
 targetGroupBinding:
   enabled: true
-  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:610964304971:targetgroup/devops-quiz-eks-quiz-backend-tg/beefa6226b324a59" # Injected by Terraform
+  targetGroupARN: "arn:aws:elasticloadbalancing:eu-north-1:937137607178:targetgroup/devops-quiz-eks-quiz-backend-tg/4b217f116cb37f35" # Injected by Terraform
   targetType: ip
   serviceRef:
     name: "quiz-backend"
@@ -45,7 +45,7 @@ targetGroupBinding:
     ingress:
       - from:
           - securityGroup:
-              groupID: "sg-0022bc18fec7c1151" # Injected by Terraform
+              groupID: "sg-0c08a24b548e2f8b9" # Injected by Terraform
         ports:
           - protocol: TCP
             port: 5000
@@ -98,6 +98,11 @@ autoscaling:
 mongodb:
   host: "mongodb.mongodb.svc.cluster.local"
   port: "27017"
+
+# Redis connection for multiplayer event publishing
+redis:
+  host: "redis.redis.svc.cluster.local"
+  port: "6379"
 
 # Prometheus monitoring
 monitoring:

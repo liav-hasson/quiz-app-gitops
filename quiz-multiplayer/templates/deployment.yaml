@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.app.name }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      serviceAccountName: {{ .Values.app.name }}
+      initContainers:
+        # Wait for Redis only - no MongoDB dependency for WebSocket server
+        - name: wait-for-redis
+          image: busybox:1.35.0
+          command: ['sh', '-c', 'until nc -z redis.redis.svc.cluster.local 6379; do echo "Waiting for Redis..."; sleep 5; done']
+      containers:
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.service.targetPort }}
+              protocol: TCP
+          env:
+            {{- range .Values.app.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
+            {{- if .Values.externalSecrets.enabled }}
+            # Only JWT secret needed - no MongoDB or OpenAI for WebSocket server
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ (index .Values.externalSecrets.secrets 0).target }}
+                  key: JWT_SECRET
+            {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.probes.readiness | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
