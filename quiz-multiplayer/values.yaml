@@ -3,7 +3,7 @@ app:
   replicaCount: 2
   image:
     repository: liavvv/quiz-multiplayer
-    tag: "v1.0.11"
+    tag: "v2.0.0"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
